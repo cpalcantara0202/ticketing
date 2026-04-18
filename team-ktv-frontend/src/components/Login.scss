@@ -1,0 +1,84 @@
+.innova_bg {
+    background-image: url('/src/assets/certification-quality-assurance-concept-businessman-600nw-2701873091.jpg.webp');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 0;
+    position: relative;
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.5);
+        z-index: 0;
+    }
+}
+.login {
+    position: relative;
+    z-index: 1;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    padding: 40px 20px;
+    box-shadow: 1px 1px 5px rgb(107, 107, 107);
+    border-radius: 30px;
+    background-color: white;
+}
+.innova_logo {
+    width: 70%;
+    max-width: 280px;
+    border: none;
+    margin-bottom: 20px;
+}
+.username, .password {
+    display: block;
+    font-family: inherit;
+    font-size: 16px;
+    padding: 10px;
+    width: 75%;
+    margin: 10px auto;
+    border-radius: 7px;
+    border: none;
+    box-shadow: 1px 1px 3px rgb(0, 0, 0);
+    box-sizing: border-box;
+}
+.check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 15px 0 5px;
+}
+.checkbox {
+    margin-right: 8px;
+}
+.remember {
+    font-family: inherit;
+    font-size: 14px;
+    margin: 0;
+}
+.loginbtn {
+    display: block;
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 12px;
+    color: white;
+    background-color: #4267b2;
+    width: 75%;
+    margin: 10px auto 0;
+    border-radius: 7px;
+    border: none;
+    box-shadow: 1px 1px 3px rgb(0, 0, 0);
+    cursor: pointer;
+    &:hover {
+        opacity: 0.7;
+    }
+    &:active {
+        opacity: 1;
+    }
+}

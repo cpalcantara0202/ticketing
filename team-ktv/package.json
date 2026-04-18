@@ -1,0 +1,50 @@
+{
+  "name": "server-monitoring-backend",
+  "version": "1.0.0",
+  "description": "1. Create project `.env` file into the project root directory. You can use the following parameters in your `.env` file as a default.\r ```\r development_mode=true\r backend_port=4000\r mongo_db_connection_string=\"mongodb+srv://developer:water123@testing.qtetx.mongodb.net/dev-ticketing\"\r telegram_channel=\"-808854602\"\r telegram_token=\"5940612440:AAGqWjkK3XyLYcuFXwvO7zu1zZxplTLEbVk\"\r ```\r 2. Make sure `node` is intalled with atleast Version 12. Once you know it's properly installed run `npm install`.\r 3. Install `nodemon` globally if you haven't installed. You can install using this command `npm install -g nodemon`.\r 4. Run the project by going into the project root directory and running the command `nodemon`.",
+  "main": "index.js",
+  "scripts": {
+    "dev-reset": "pkill -f nodemon",
+    "dev": "nodemon -L",
+    "docker-dev": "cd docker/dev && docker compose up --build -d",
+    "docker-dev-stop": "cd docker/dev && docker compose down",
+    "watch": "docker logs -f development-backend",
+    "production": "node index.js",
+    "test": "mocha tests.js --timeout 10000 --exit"
+  },
+  "author": "Guillermo Tabligan",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "chai-http": "^4.4.0",
+    "mocha": "^10.2.0",
+    "nodemon": "^2.0.22"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "bcrypt": "^5.1.0",
+    "chalk": "^5.2.0",
+    "cli-color": "^2.0.3",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.0",
+    "express-validator": "^6.15.0",
+    "geer-payment": "^1.0.7",
+    "http": "0.0.1-security",
+    "jsonwebtoken": "^9.0.0",
+    "mariadb": "^3.2.0",
+    "moment": "^2.29.4",
+    "mongodb": "^6.2.0",
+    "mongoose": "^6.10.0",
+    "node-cron": "^3.0.2",
+    "node-mongotools": "^2.2.0",
+    "node-telegram-bot-api": "^0.61.0",
+    "nodemailer": "^6.9.4",
+    "redis": "^3.1.2",
+    "sequelize": "^6.32.1",
+    "socket.io": "^4.6.1"
+  },
+  "keywords": []
+}
