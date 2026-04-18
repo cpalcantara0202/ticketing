@@ -54,7 +54,7 @@ style="font-family: inherit"
       field: 'Employee_ID',
       name:  'Employee_ID',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size: 1em'
 
       
@@ -64,7 +64,7 @@ style="font-family: inherit"
       field: 'Name',
       name:  'Name',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size: 1em'
 
     },
@@ -73,7 +73,7 @@ style="font-family: inherit"
       field: 'Designation',
       name:  'Designation',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size: 1em'
 
     },
@@ -82,7 +82,7 @@ style="font-family: inherit"
       field: 'Ongoing',
       name:  'Ongoing',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size: 1em'
      
     },
@@ -91,7 +91,7 @@ style="font-family: inherit"
       field: 'Completed',
       name:  'Completed',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size: 1em'
     
     },

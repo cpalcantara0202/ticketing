@@ -16,7 +16,7 @@
     </q-header>
 
     <q-footer elevated class="f">
-        <q-toolbar class="bg-blue-10">
+        <q-toolbar class="bg-teal-10">
         </q-toolbar>
       </q-footer>
 

@@ -20,7 +20,7 @@
       
              <!--------------------CREATE JOB ORDER ------------------------->
       <q-btn v-model="model" push glossy @click="prompt = true" 
-        style="background-color: #1976D2;" class="btnjob_order">
+        style="background-color: #009688;" class="btnjob_order">
         <q-icon name="create" />
         <div class="txt">Create <br>Job Order</div>
       </q-btn> 
@@ -30,7 +30,7 @@
       <q-card style="min-width: 43%">
         <q-card-section class="pencil">
           <q-icon class="create_icon q-gutter-m" size="3em" 
-           style="color: #1976D2" name="create" />
+           style="color: #009688" name="create" />
           <div class="text-h6">Create Job Order</div>
       </q-card-section>
         
@@ -47,7 +47,7 @@
 
             <!-----------------------Category Dropdown--------------------->
     
-      <q-btn-dropdown class="category" split color="blue" push no-caps
+      <q-btn-dropdown class="category" split color="teal" push no-caps
       @click="onMainClick">
       <template v-slot:label>
         <div class="row items-center no-wrap">
@@ -87,7 +87,7 @@
             
             <!-----------------------Department Dropdown--------------------->
 
-    <q-btn-dropdown class="department" split color="blue" push no-caps
+    <q-btn-dropdown class="department" split color="teal" push no-caps
       @click="onMainClick">
       <template v-slot:label>
         <div class="row items-center no-wrap">
@@ -128,7 +128,7 @@
                 <!-----------------------Description--------------------->
 
     <q-input class="description" v-model="textareaModel"  clearable
-      type="textarea" color="blue" label="Description" @keydown="processTextareaFill"
+      type="textarea" color="teal" label="Description" @keydown="processTextareaFill"
       @focus="processTextareaFill" :shadow-text="textareaShadowText">
       <template v-slot:prepend>
             <q-icon name="message" />
@@ -139,11 +139,11 @@
 
       <p class="txtAttachment">Attachment:</p>
       <q-input class="attachment"  @update:model-value="val => { files = val }"
-        multiple filled color="blue" type="file" hint="* Select Image"  />
+        multiple filled color="teal" type="file" hint="* Select Image"  />
         
                   <!-----------------------Priority--------------------->
 
-        <q-btn-dropdown class="Priority" split color="blue" push no-caps
+        <q-btn-dropdown class="Priority" split color="teal" push no-caps
       @click="onMainClick">
       <template v-slot:label>
         <div class="row items-center no-wrap">
@@ -255,7 +255,7 @@
             field: 'Ticket_ID',
             name:  'Ticket_ID',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
 
             
@@ -265,7 +265,7 @@
             field: 'Subject',
             name:  'Subject',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
 
           },
@@ -274,7 +274,7 @@
             field: 'Category',
             name:  'Category',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
 
           },
@@ -283,7 +283,7 @@
             field: 'Created_By',
             name:  'Created_By',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
            
           },
@@ -292,7 +292,7 @@
             field: 'Priority',
             name:  'Priority',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size:1em'
 
 
@@ -302,7 +302,7 @@
             field: 'Assign_Date',
             name:  'Assign_Date',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
           }
     ]"
@@ -400,7 +400,7 @@
             field: 'Ticket_ID',
             name:  'Ticket_ID',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
             
           },
@@ -409,7 +409,7 @@
             field: 'Subject',
             name:  'Subject',
             align: 'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
           },
           {
@@ -417,7 +417,7 @@
             field: 'Category',
             name:  'Category',
             align: 'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
           },
           {
@@ -425,7 +425,7 @@
             field: 'Created_Date',
             name:  'Created_Date',
             align: 'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
           },
           {
@@ -433,7 +433,7 @@
             field: 'Submitted_To',
             name:  'Submitted_To',
             align: 'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
           },
           {
@@ -441,7 +441,7 @@
             field: 'Assignee',
             name:  'Assignee',
             align: 'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
           },
           {
@@ -449,7 +449,7 @@
             field: 'Priority',
             name:  'Priority',
             align: 'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
           },
           {
@@ -457,7 +457,7 @@
             field: 'Status',
             name:  'Status',
             align: 'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
           }
         ]" 
@@ -563,7 +563,7 @@
             field: 'Ticket_ID',
             name:  'Ticket_ID',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
           },
           {
@@ -571,7 +571,7 @@
             field: 'Subject',
             name:  'Subject',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
           },
           {
@@ -579,7 +579,7 @@
             field: 'Category',
             name:  'Category',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
           },
           {
@@ -587,7 +587,7 @@
             field: 'Created_Date',
             name:  'Created_Date',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
           },
           {
@@ -595,7 +595,7 @@
             field: 'Submitted_To',
             name:  'Submitted_To',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
           },
           {
@@ -603,7 +603,7 @@
             field: 'Assignee',
             name:  'Assignee',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
           },
           {
@@ -611,7 +611,7 @@
             field: 'Priority',
             name:  'Priority',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
           },
           {
@@ -619,7 +619,7 @@
             field: 'Completed_Date',
             name:  'Completed_Date',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
           }
         ]"

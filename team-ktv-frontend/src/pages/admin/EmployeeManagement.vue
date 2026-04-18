@@ -15,7 +15,7 @@
       </q-tab>
   <!--------------------CREATE BUTTON ------------------------->
   <q-btn v-model="model" push glossy @click="prompt = true" label="Create"
-        style="background-color: #1976D2; margin-left: 20px; margin-right: 20px;" 
+        style="background-color: #009688; margin-left: 20px; margin-right: 20px;" 
         text-color="white" class="btnjob_order" 
         icon="create" stack>
   </q-btn> 
@@ -23,7 +23,7 @@
       <q-dialog v-model="prompt" persistent>
       <q-card style="min-width: 40%">
         <q-icon class="create_icon q-gutter-m" size="3em" 
-           style="color: #1976D2" name="create" />
+           style="color: #009688" name="create" />
         <q-card-section class="pencil">
           <div class="text-h6">Create</div>
       </q-card-section>
@@ -148,7 +148,7 @@
             field: 'Employee_ID',
             name:  'Employee_ID',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
 
             
@@ -158,7 +158,7 @@
             field: 'Username',
             name:  'Username',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
 
           },
@@ -167,7 +167,7 @@
             field: 'Name',
             name:  'Name',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
 
           },
@@ -176,7 +176,7 @@
             field: 'Department',
             name:  'Department',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
            
           },
@@ -185,7 +185,7 @@
             field: 'User_Role',
             name:  'User_Role',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size:1em'
           }
           
@@ -262,7 +262,7 @@
             field: 'Employee_ID',
             name:  'Employee_ID',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
 
             
@@ -272,7 +272,7 @@
             field: 'Username',
             name:  'Username',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
 
           },
@@ -281,7 +281,7 @@
             field: 'Name',
             name:  'Name',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
 
           },
@@ -290,7 +290,7 @@
             field: 'Department',
             name:  'Department',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size: 1em'
            
           },
@@ -299,7 +299,7 @@
             field: 'User_Role',
             name:  'User_Role',
             align:'center',
-            headerClasses: 'bg-blue-7 text-white',
+            headerClasses: 'bg-teal-7 text-white',
             headerStyle: 'font-size:1em'
           }
           

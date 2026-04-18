@@ -1,40 +1,12 @@
-.home-icon, .assignment-icon, .logout-icon, 
-.homework-icon, .emplist-icon {
-    margin-right: 11px;
-}
 .toggle {
     height: 60px;
-    background-color: #1976D2;
+    background-color: #009688;
+}
+.header__toolbar {
+    background-color: #009688;
 }
 .logo {
-    width: 190px;
-    padding: 10px;
-    margin-left: 50px;
-}
-.title {
-    font-family: inherit;
-    font-size: 15px;
-    font-weight: bold;
-}
-
-.sidebar {
-    &__item {
-        color: white;
-        height: 60%;
-        font-family: inherit;
-        font-weight: bold;
-        font-size: 15px;
-        padding: 15px;  
-        box-shadow: 1px 1px 5px rgb(255, 255, 255);
-        background-color: #1976D2;
-        cursor: pointer;
-        &:hover {
-            opacity: 0.7;
-        }
-        &:active {
-            opacity: 1;
-        }
-    }
+    height: 50px;
 }
 .footer {
     height: 40px;

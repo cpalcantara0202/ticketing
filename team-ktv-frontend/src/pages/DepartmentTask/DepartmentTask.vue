@@ -120,7 +120,7 @@ style="font-family: inherit"
       field: 'Ticket_ID',
       name:  'Ticket_ID',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size: 1em'
 
       
@@ -130,7 +130,7 @@ style="font-family: inherit"
       field: 'Subject',
       name:  'Subject',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size: 1em'
 
     },
@@ -139,7 +139,7 @@ style="font-family: inherit"
       field: 'Category',
       name:  'Category',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size: 1em'
 
     },
@@ -148,7 +148,7 @@ style="font-family: inherit"
       field: 'Created_By',
       name:  'Created_By',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size: 1em'
      
     },
@@ -157,7 +157,7 @@ style="font-family: inherit"
       field: 'Created_Date',
       name:  'Created_Date',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size: 1em'
      
     },
@@ -166,7 +166,7 @@ style="font-family: inherit"
       field: 'Priority',
       name:  'Priority',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size:1em'
     },
     {
@@ -174,7 +174,7 @@ style="font-family: inherit"
       field: 'Assignee',
       name:  'Assignee',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size:1em'
     },
     {
@@ -182,7 +182,7 @@ style="font-family: inherit"
       field: 'Assigned_By',
       name:  'Assigned_By',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size:1em'
     },
     {
@@ -190,7 +190,7 @@ style="font-family: inherit"
       field: 'Assign_Date',
       name:  'Assign_Date',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size: 1em'
     }
 ]"
@@ -290,7 +290,7 @@ style="font-family: inherit"
           field: 'Ticket_ID',
           name:  'Ticket_ID',
           align:'center',
-          headerClasses: 'bg-blue-7 text-white',
+          headerClasses: 'bg-teal-7 text-white',
           headerStyle: 'font-size: 1em'
           
         },
@@ -299,7 +299,7 @@ style="font-family: inherit"
           field: 'Subject',
           name:  'Subject',
           align: 'center',
-          headerClasses: 'bg-blue-7 text-white',
+          headerClasses: 'bg-teal-7 text-white',
           headerStyle: 'font-size: 1em'
         },
         {
@@ -307,7 +307,7 @@ style="font-family: inherit"
           field: 'Category',
           name:  'Category',
           align: 'center',
-          headerClasses: 'bg-blue-7 text-white',
+          headerClasses: 'bg-teal-7 text-white',
           headerStyle: 'font-size: 1em'
         },
         {
@@ -315,7 +315,7 @@ style="font-family: inherit"
           field: 'Created_By',
           name:  'Created_By',
           align: 'center',
-          headerClasses: 'bg-blue-7 text-white',
+          headerClasses: 'bg-teal-7 text-white',
           headerStyle: 'font-size: 1em'
         },
         {
@@ -323,7 +323,7 @@ style="font-family: inherit"
           field: 'Created_Date',
           name:  'Created_Date',
           align: 'center',
-          headerClasses: 'bg-blue-7 text-white',
+          headerClasses: 'bg-teal-7 text-white',
           headerStyle: 'font-size: 1em'
         },
         {
@@ -331,7 +331,7 @@ style="font-family: inherit"
           field: 'Priority',
           name:  'Priority',
           align: 'center',
-          headerClasses: 'bg-blue-7 text-white',
+          headerClasses: 'bg-teal-7 text-white',
           headerStyle: 'font-size: 1em'
         },
       ]" 
@@ -457,7 +457,7 @@ style="font-family: inherit"
       field: 'Ticket_ID',
       name:  'Ticket_ID',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size: 1em'
 
       
@@ -467,7 +467,7 @@ style="font-family: inherit"
       field: 'Subject',
       name:  'Subject',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size: 1em'
 
     },
@@ -476,7 +476,7 @@ style="font-family: inherit"
       field: 'Category',
       name:  'Category',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size: 1em'
 
     },
@@ -485,7 +485,7 @@ style="font-family: inherit"
       field: 'Created_By',
       name:  'Created_By',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size: 1em'
      
     },
@@ -494,7 +494,7 @@ style="font-family: inherit"
       field: 'Created_Date',
       name:  'Created_Date',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size: 1em'
      
     },
@@ -503,7 +503,7 @@ style="font-family: inherit"
       field: 'Priority',
       name:  'Priority',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size:1em'
     },
     {
@@ -511,7 +511,7 @@ style="font-family: inherit"
       field: 'Assignee',
       name:  'Assignee',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size:1em'
     },
     {
@@ -519,7 +519,7 @@ style="font-family: inherit"
       field: 'Completed_Date',
       name:  'Completed_Date',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size:1em'
     },
     
@@ -655,7 +655,7 @@ style="font-family: inherit"
       field: 'Ticket_ID',
       name:  'Ticket_ID',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size: 1em'
 
       
@@ -665,7 +665,7 @@ style="font-family: inherit"
       field: 'Subject',
       name:  'Subject',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size: 1em'
 
     },
@@ -674,7 +674,7 @@ style="font-family: inherit"
       field: 'Category',
       name:  'Category',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size: 1em'
 
     },
@@ -683,7 +683,7 @@ style="font-family: inherit"
       field: 'Created_By',
       name:  'Created_By',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size: 1em'
      
     },
@@ -692,7 +692,7 @@ style="font-family: inherit"
       field: 'Created_Date',
       name:  'Created_Date',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size: 1em'
      
     },
@@ -701,7 +701,7 @@ style="font-family: inherit"
       field: 'Priority',
       name:  'Priority',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size:1em'
     },
     {
@@ -709,7 +709,7 @@ style="font-family: inherit"
       field: 'Assignee',
       name:  'Assignee',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size:1em'
     },
     {
@@ -717,7 +717,7 @@ style="font-family: inherit"
       field: 'Completed_Date',
       name:  'Completed_Date',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size:1em'
     },
     {
@@ -725,7 +725,7 @@ style="font-family: inherit"
       field: 'Rate',
       name:  'Rate',
       align:'center',
-      headerClasses: 'bg-blue-7 text-white',
+      headerClasses: 'bg-teal-7 text-white',
       headerStyle: 'font-size:1em'
     },
     

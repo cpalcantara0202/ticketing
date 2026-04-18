@@ -35,6 +35,7 @@ async function login() {
     const data = await res.json();
     console.log('Response:', data);
     if (data.status === 'success') {
+      localStorage.setItem('token', data.user_info._id);
       localStorage.setItem('logged_in_user', data.user_info._id);
       localStorage.setItem('user_role', data.user_info.user_role);
       if (data.user_info.user_role == 1) {

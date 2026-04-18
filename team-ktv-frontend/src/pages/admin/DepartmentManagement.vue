@@ -3,7 +3,7 @@
     <div class="create_btn1">
 <!---------------------------  CREATE BUTTON  ---------------------------->
     <q-btn push glossy color="primary" @click="prompt = true" 
-     style="background-color: #1976D2;" class="btncreate"> 
+     style="background-color: #009688;" class="btncreate"> 
     <q-icon class="icon" name="edit"   />
     <div class="create">Create</div>
     </q-btn>
@@ -11,7 +11,7 @@
     <q-dialog v-model="prompt" persistent>
       <q-card style="min-width: 42%">
         <q-icon class="create_icon q-gutter-m" size="3em" 
-           style="color: #1976D2" name="create" />
+           style="color: #009688" name="create" />
         <q-card-section class="try">
           <div class="text-h6">CREATE</div>
 
@@ -80,7 +80,7 @@
         field: 'Department_ID',
         name:  'Department_ID',
         align:'center',
-        headerClasses: 'bg-blue-7 text-white',
+        headerClasses: 'bg-teal-7 text-white',
         headerStyle: 'font-size: 1em'
   
         
@@ -90,7 +90,7 @@
         field: 'Department',
         name:  'Department',
         align:'center',
-        headerClasses: 'bg-blue-7 text-white',
+        headerClasses: 'bg-teal-7 text-white',
         headerStyle: 'font-size: 1em'
   
       },
@@ -99,7 +99,7 @@
         field: 'Unit_Head',
         name:  'Unit_Head',
         align:'center',
-        headerClasses: 'bg-blue-7 text-white',
+        headerClasses: 'bg-teal-7 text-white',
         headerStyle: 'font-size: 1em'
   
       },
@@ -108,7 +108,7 @@
         field: 'No_Of_Employee',
         name:  'No_Of_Employee',
         align:'center',
-        headerClasses: 'bg-blue-7 text-white',
+        headerClasses: 'bg-teal-7 text-white',
         headerStyle: 'font-size: 1em'
        
       },
@@ -117,7 +117,7 @@
         field: 'Status',
         name:  'Status',
         align:'center',
-        headerClasses: 'bg-blue-7 text-white',
+        headerClasses: 'bg-teal-7 text-white',
         headerStyle: 'font-size: 1em'
       
       },
