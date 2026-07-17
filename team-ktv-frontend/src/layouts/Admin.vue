@@ -4,6 +4,14 @@
     <q-header elevated class="header">
       <q-toolbar class="header__toolbar">
         <q-btn flat dense round icon="menu" aria-label="Menu" class="toggle" @click="toggleLeftDrawer" />
+        <q-btn
+          v-if="route.path !== '/admin'"
+          flat dense round
+          icon="arrow_back"
+          aria-label="Back"
+          @click="router.back()"
+          class="q-ml-sm"
+        />
         <q-space />
         <img class="logo" src="src/assets/logo.svg">
         <q-space />
@@ -23,9 +31,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter();
+const route = useRoute();
 const leftDrawerOpen = ref(false)
 
 function toggleLeftDrawer() {

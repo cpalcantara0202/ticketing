@@ -1,8 +1,4 @@
 .innova_bg {
-    background-image: url('/src/assets/certification-quality-assurance-concept-businessman-600nw-2701873091.jpg.webp');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
     height: 100vh;
     width: 100vw;
     display: flex;
@@ -10,14 +6,120 @@
     justify-content: center;
     padding-left: 0;
     position: relative;
-    &::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: rgba(255, 255, 255, 0.5);
-        z-index: 0;
+    overflow: hidden;
+    background: linear-gradient(-45deg, #009688, #00bcd4, #26a69a, #4db6ac, #00897b);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
     }
 }
+
+// Abstract floating shapes
+.abstract-shapes {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.15;
+    animation: float 20s infinite ease-in-out;
+}
+
+.shape-1 {
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.6);
+    top: -80px;
+    left: -80px;
+    animation-duration: 18s;
+    animation-delay: 0s;
+}
+
+.shape-2 {
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.5);
+    top: 60%;
+    right: -60px;
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    animation-duration: 22s;
+    animation-delay: -3s;
+}
+
+.shape-3 {
+    width: 150px;
+    height: 150px;
+    background: rgba(0, 0, 0, 0.08);
+    bottom: 10%;
+    left: 10%;
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    animation-duration: 25s;
+    animation-delay: -5s;
+}
+
+.shape-4 {
+    width: 250px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.4);
+    top: 20%;
+    right: 15%;
+    border-radius: 40% 60% 65% 35% / 40% 45% 55% 60%;
+    animation-duration: 20s;
+    animation-delay: -7s;
+}
+
+.shape-5 {
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.35);
+    bottom: -40px;
+    right: 30%;
+    border-radius: 50%;
+    animation-duration: 16s;
+    animation-delay: -2s;
+}
+
+.shape-6 {
+    width: 180px;
+    height: 180px;
+    background: rgba(0, 0, 0, 0.06);
+    top: 10%;
+    left: 40%;
+    border-radius: 70% 30% 50% 50% / 30% 50% 50% 70%;
+    animation-duration: 28s;
+    animation-delay: -10s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+    25% {
+        transform: translate(30px, -40px) rotate(5deg) scale(1.05);
+    }
+    50% {
+        transform: translate(-20px, 20px) rotate(-5deg) scale(0.95);
+    }
+    75% {
+        transform: translate(15px, 35px) rotate(3deg) scale(1.02);
+    }
+}
+
+// Login card
 .login {
     position: relative;
     z-index: 1;
@@ -25,16 +127,31 @@
     max-width: 450px;
     text-align: center;
     padding: 40px 20px;
-    box-shadow: 1px 1px 5px rgb(107, 107, 107);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     border-radius: 30px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    animation: fadeInUp 0.8s ease-out;
 }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .innova_logo {
     width: 70%;
     max-width: 280px;
     border: none;
     margin-bottom: 20px;
 }
+
 .username, .password {
     display: block;
     font-family: inherit;
@@ -46,21 +163,32 @@
     border: none;
     box-shadow: 1px 1px 3px rgb(0, 0, 0);
     box-sizing: border-box;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px #009688, 0 4px 12px rgba(0, 150, 136, 0.3);
+        transform: scale(1.02);
+    }
 }
+
 .check {
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 15px 0 5px;
 }
+
 .checkbox {
     margin-right: 8px;
 }
+
 .remember {
     font-family: inherit;
     font-size: 14px;
     margin: 0;
 }
+
 .loginbtn {
     display: block;
     font-family: inherit;
@@ -73,12 +201,19 @@
     margin: 10px auto 0;
     border-radius: 7px;
     border: none;
-    box-shadow: 1px 1px 3px rgb(0, 0, 0);
+    box-shadow: 0 4px 15px rgba(0, 150, 136, 0.4);
     cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+
     &:hover {
-        opacity: 0.7;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 150, 136, 0.5);
+        opacity: 0.9;
     }
+
     &:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 10px rgba(0, 150, 136, 0.4);
         opacity: 1;
     }
 }
