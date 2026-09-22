@@ -1,6 +1,18 @@
 {
-  "extends": "@quasar/app-vite/tsconfig-preset",
   "compilerOptions": {
-    "baseUrl": "."
-  }
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "baseUrl": ".",
+    "paths": {
+      "src/*": ["src/*"],
+      "layouts/*": ["src/layouts/*"],
+      "pages/*": ["src/pages/*"],
+      "components/*": ["src/components/*"],
+      "assets/*": ["src/assets/*"]
+    },
+    "allowJs": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"]
 }

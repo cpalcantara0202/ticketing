@@ -1,5 +1,5 @@
 .innova_bg {
-    background-image: url('/src/assets/certification-quality-assurance-concept-businessman-600nw-2701873091.jpg.webp');
+    background-image: url('/src/assets/Gemini_Generated_Image_1npi811npi811npi.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -10,11 +10,12 @@
     justify-content: center;
     padding-left: 0;
     position: relative;
+    filter: contrast(1.1) brightness(1.05);
     &::before {
         content: '';
         position: absolute;
         inset: 0;
-        background: rgba(255, 255, 255, 0.5);
+        background: rgba(0, 0, 0, 0.3);
         z-index: 0;
     }
 }

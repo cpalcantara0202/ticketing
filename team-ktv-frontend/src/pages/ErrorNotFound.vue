@@ -14,7 +14,7 @@
         color="white"
         text-color="teal"
         unelevated
-        to="/"
+        href="/"
         label="Go Home"
         no-caps
       />
@@ -22,6 +22,10 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
+// Standalone 404 page, no layout.
+</script>
 
+<script>
+export default { layout: null };
 </script>

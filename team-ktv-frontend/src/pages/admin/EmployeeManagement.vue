@@ -1,358 +1,326 @@
 <template>
-     <q-page padding>
-        <q-tabs class="check1" v-model="currentTab" narrow-indicator align="right" 
-        style="margin-top: 20px;"
-        :breakpoint="600" no-caps dense >
-             <!-------------------- ACTIVE ------------------------->
-      <q-tab label="Active" name="Active" icon="event_available" stack
-      class="bg-white text-primary">
-        <q-badge color="red" floating>1</q-badge>
-      </q-tab>
-            <!-------------------- ARCHIVE ------------------------->
-      <q-tab label="Archive" name="Archive" icon="check_circle_outline" stack
-      class="bg-primary text-white">
-        <q-badge color="red" floating>10</q-badge>
-      </q-tab>
-  <!--------------------CREATE BUTTON ------------------------->
-  <q-btn v-model="model" push glossy @click="prompt = true" label="Create"
-        style="background-color: #009688; margin-left: 20px; margin-right: 20px;" 
-        text-color="white" class="btnjob_order" 
-        icon="create" stack>
-  </q-btn> 
+  <q-page padding>
+    <!--------------------- CREATE BUTTON ------------------------->
+    <div class="row justify-end q-mb-md">
+      <q-btn
+        push
+        glossy
+        @click="prompt = true"
+        label="Create"
+        style="background-color: #009688;"
+        text-color="white"
+        class="btnjob_order"
+        icon="create"
+        stack
+      />
+    </div>
 
-      <q-dialog v-model="prompt" persistent>
+    <!--------------------- CREATE USER DIALOG ------------------------->
+    <q-dialog v-model="prompt" persistent>
       <q-card style="min-width: 40%">
-        <q-icon class="create_icon q-gutter-m" size="3em" 
-           style="color: #009688" name="create" />
+        <q-icon
+          class="create_icon q-gutter-m"
+          size="3em"
+          style="color: #009688"
+          name="create"
+        />
         <q-card-section class="pencil">
           <div class="text-h6">Create</div>
-      </q-card-section>
-        
-  <!-------------------- NAME IMPUT ------------------------->
+        </q-card-section>
 
-    <q-form class="main" :breakpoint="600">
-      <div>
-        <q-input class="name" outlined bottom-slots v-model="text" label="Name" :dense="dense">
-          <template v-slot:prepend>
-            <q-icon name="person" />
-          </template>
-        </q-input>
-      </div>   
-        <!-------------------- EMAIL INPUT ------------------------->
+        <q-form class="main" @submit.prevent="submit">
+          <!-------------------- FIRST NAME -------------------->
+          <div>
+            <q-input
+              class="name"
+              outlined
+              bottom-slots
+              v-model="form.firstname"
+              label="First Name"
+              :error="!!form.errors.firstname"
+              :error-message="form.errors.firstname"
+            >
+              <template v-slot:prepend>
+                <q-icon name="person" />
+              </template>
+            </q-input>
+          </div>
 
-      <div>
-        <q-input class="username" outlined bottom-slots v-model="text" label="Username" :dense="dense">
-          <template v-slot:prepend>
-            <q-icon name="email" />
-          </template>
-        </q-input>
-      </div>
-        <!-------------------- DROPDOWN DEPT & USER ROLES ------------------------->
+          <!-------------------- LAST NAME -------------------->
+          <div>
+            <q-input
+              class="name"
+              outlined
+              bottom-slots
+              v-model="form.lastname"
+              label="Last Name"
+              :error="!!form.errors.lastname"
+              :error-message="form.errors.lastname"
+            >
+              <template v-slot:prepend>
+                <q-icon name="person" />
+              </template>
+            </q-input>
+          </div>
 
-      <div>
-        <q-select class="dept" outlined v-model="selection" label="Department" :options="['Operations Department', 'Finance&Admin Department', 'Marketing Department', 'IT Department']" >
-        <template v-slot:prepend>
-          <q-icon name="domain" />
+          <!-------------------- USERNAME -------------------->
+          <div>
+            <q-input
+              class="username"
+              outlined
+              bottom-slots
+              v-model="form.username"
+              label="Username"
+              :error="!!form.errors.username"
+              :error-message="form.errors.username"
+            >
+              <template v-slot:prepend>
+                <q-icon name="email" />
+              </template>
+            </q-input>
+          </div>
+
+          <!-------------------- DEPARTMENT & ROLE -------------------->
+          <div>
+            <q-select
+              class="dept"
+              outlined
+              v-model="form.department"
+              label="Department"
+              :options="[
+                'Operations Department',
+                'Finance&Admin Department',
+                'Marketing Department',
+                'IT Department',
+              ]"
+            >
+              <template v-slot:prepend>
+                <q-icon name="domain" />
+              </template>
+            </q-select>
+            <q-select
+              class="user_roles"
+              outlined
+              v-model="form.user_role"
+              label="User Roles"
+              emit-value
+              map-options
+              :options="[
+                { label: 'Administrator', value: 1 },
+                { label: 'Unit Head', value: 2 },
+                { label: 'Supervisor', value: 3 },
+                { label: 'Employee', value: 4 },
+              ]"
+            >
+              <template v-slot:prepend>
+                <q-icon name="manage_accounts" />
+              </template>
+            </q-select>
+          </div>
+
+          <!-------------------- PASSWORD -------------------->
+          <div>
+            <q-input
+              class="pass"
+              v-model="form.password"
+              outlined
+              :type="isPwd ? 'password' : 'text'"
+              label="Password"
+              :error="!!form.errors.password"
+              :error-message="form.errors.password"
+            >
+              <template v-slot:append>
+                <q-icon
+                  :name="isPwd ? 'visibility_off' : 'visibility'"
+                  class="cursor-pointer"
+                  @click="isPwd = !isPwd"
+                />
+              </template>
+              <template v-slot:prepend>
+                <q-icon name="lock" />
+              </template>
+            </q-input>
+            <q-input
+              class="cpass"
+              v-model="form.password_conf"
+              outlined
+              :type="isPwd ? 'password' : 'text'"
+              label="Confirm Password"
+            >
+              <template v-slot:append>
+                <q-icon
+                  :name="isPwd ? 'visibility_off' : 'visibility'"
+                  class="cursor-pointer"
+                  @click="isPwd = !isPwd"
+                />
+              </template>
+              <template v-slot:prepend>
+                <q-icon name="lock" />
+              </template>
+            </q-input>
+          </div>
+
+          <!----------------------- SAVE & CANCEL --------------------->
+          <q-card-actions align="right" class="text-primary">
+            <q-btn
+              flat
+              label="Save"
+              type="submit"
+              :loading="form.processing"
+            />
+            <q-btn flat label="Cancel" v-close-popup />
+          </q-card-actions>
+        </q-form>
+      </q-card>
+    </q-dialog>
+
+    <!--------------------- EMPLOYEE TABLE ------------------------->
+    <div class="EmpManagement_tbl">
+      <q-table
+        separator="cell"
+        wrap-cells
+        :rows="employeeRows"
+        style="font-family: inherit"
+        :columns="columns"
+        row-key="user_number"
+        :visible-columns="[
+          'user_number',
+          'username',
+          'full_name',
+          'department',
+          'role_name',
+        ]"
+        :rows-per-page-options="[5, 9, 10, 15, 20, 25, 30, 0]"
+      >
+        <template #body="props">
+          <q-tr class="white" :props="props">
+            <q-td
+              key="user_number"
+              class="text-center"
+              style="color: black; font-style: inherit; font-size: 14px;"
+            >
+              {{ props.row.user_number }}
+            </q-td>
+            <q-td key="username">{{ props.row.username }}</q-td>
+            <q-td key="full_name">{{ props.row.full_name }}</q-td>
+            <q-td key="department">{{ props.row.department }}</q-td>
+            <q-td
+              key="role_name"
+              class="text-center"
+              style="color: black; font-style: inherit;"
+            >
+              <q-chip>{{ props.row.role_name }}</q-chip>
+            </q-td>
+          </q-tr>
         </template>
-      </q-select>
-      <q-select  class="user_roles" outlined v-model="selection1" label="User Roles" :options="['Administrator', 'Department Head', 'Unit Head', 'Supervisor', 'Employee']" >
-        <template v-slot:prepend>
-          <q-icon name="manage_accounts" />
+
+        <template #no-data>
+          <div class="full-width row flex-center q-pa-md text-grey">
+            No records found.
+          </div>
         </template>
-      </q-select>
-      </div>
-              <!-------------------- PASSWORD ------------------------->
-
-      <div>
-        <q-input class="pass" v-model="password" outlined :type="isPwd ? 'password' : 'password'" label="Password">
-        <template v-slot:append>
-          <q-icon
-            :name="isPwd ? 'visibility_off' : 'visibility'"
-            class="cursor-pointer"
-            @click="isPwd = !isPwd"
-          />
-        </template>
-        <template v-slot:prepend>
-            <q-icon name="lock" />
-        </template>
-      </q-input>
-      <q-input class="cpass" v-model="password" outlined :type="isPwd ? 'password' : 'password'" label="Confirm Password">
-        <template v-slot:append>
-          <q-icon
-            :name="isPwd ? 'visibility_off' : 'visibility'"
-            class="cursor-pointer"
-            @click="isPwd = !isPwd"
-          />
-        </template>
-        <template v-slot:prepend>
-            <q-icon name="lock" />
-        </template>
-      </q-input>
-      </div>
-       <!-----------------------Save and Cancel--------------------->
-
-  <q-card-actions align="right" class="text-primary">
-    <q-btn  flat label="Save" v-close-popup  />
-      <q-btn  flat label="Cancel" v-close-popup  />
-  </q-card-actions>   
-  
-</q-form>
-                 
-
-    </q-card>
-  </q-dialog>
-</q-tabs>
-      
-        
-
-         <!--Tab Panel for my task, submit, review----------------------------------->
-<q-tab-panels v-model="currentTab"> 
-    <q-tab-panel name="Active" class="EmpManagement_tbl">
-        <q-table  separator="cell" wrap-cells 
-        :rows="[
-        { 
-        Employee_ID:'001',
-        Username:'caryapeladas@gmail.com',
-        Name:'Caryl Apeladas',
-        Department:'Marketing Department',
-        User_Role:'Admin',  
-       },
-       { 
-        Employee_ID:'002',
-        Username:'joana@gmail.com',
-        Name:'Joana Belgica',
-        Department:'Admin&Finance Department',
-        User_Role:'Employee',  
-       },
-       { 
-        Employee_ID:'003',
-        Username:'caryapeladas@gmail.com',
-        Name:'Caryl Apeladas',
-        Department:'Marketing Department',
-        User_Role:'Admin',  
-       },
-       { 
-        Employee_ID:'004',
-        Username:'joana@gmail.com',
-        Name:'Joana Belgica',
-        Department:'Admin&Finance Department',
-        User_Role:'Employee',  
-       },
-       
-      
-    ]"
-    style="font-family: inherit"
-    :columns="[
-          {
-            label: 'EMPLOYEE ID',          
-            field: 'Employee_ID',
-            name:  'Employee_ID',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-
-            
-          },
-          {
-            label: 'USERNAME',
-            field: 'Username',
-            name:  'Username',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-
-          },
-          {
-            label: 'NAME',
-            field: 'Name',
-            name:  'Name',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-
-          },
-          {
-            label: 'DEPARTMENT',
-            field: 'Department',
-            name:  'Department',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-           
-          },
-          {
-            label: 'USER ROLE',
-            field: 'User_Role',
-            name:  'User_Role',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size:1em'
-          }
-          
-    ]"
-            row-key="Ticket_ID"
-            :visible-columns="['Employee_ID', 'Username', 'Name', 'Department', 'User_Role']"
-            :rows-per-page-options="[5,9,10,15,20,25,30,0]"
-    >
-            <template #body="props">
-              <q-tr class="white" :props="props">
-                <q-td key="Employee_ID" class="text-center" style="color: black; font-style: inherit; 
-                font-size: 14px;" >
-                  {{ props.row.Employee_ID }}
-                </q-td>
-                <q-td key="Username" >
-                  {{ props.row.Username }}
-                </q-td>
-                <q-td key="Name" >
-                  {{ props.row.Name }}
-                </q-td>
-                <q-td key="Department">
-                  {{ props.row.Department }}
-                </q-td>
-                <q-td key="User_Role" class="text-center" style="color: black; font-style: inherit;">
-                  <q-chip>{{ props.row.User_Role }}</q-chip>
-                </q-td>
-              </q-tr>
-            </template>
-          </q-table>
-      </q-tab-panel>
-</q-tab-panels>
-
-        <!--------------------------- ARCHIVE TAB ------------------------------->
-
-<q-tab-panels v-model="currentTab"> 
-    <q-tab-panel name="Archive" class="EmpManagement_tbl">
-        <q-table  separator="cell" wrap-cells 
-        :rows="[
-        { 
-        Employee_ID:'001',
-        Username:'legardee@gmail.com',
-        Name:'Elizabeth Legarde',
-        Department:'Marketing Department',
-        User_Role:'Admin',  
-       },
-       { 
-        Employee_ID:'002',
-        Username:'alcantara@gmail.com',
-        Name:'Christian Alcantara',
-        Department:'Admin&Finance Department',
-        User_Role:'Employee',  
-       },
-       { 
-        Employee_ID:'003',
-        Username:'caryapeladas@gmail.com',
-        Name:'Caryl Apeladas',
-        Department:'Marketing Department',
-        User_Role:'Admin',  
-       },
-       { 
-        Employee_ID:'004',
-        Username:'joana@gmail.com',
-        Name:'Joana Belgica',
-        Department:'Admin&Finance Department',
-        User_Role:'Employee',  
-       },
-       
-      
-    ]"
-    style="font-family: inherit"
-    :columns="[
-          {
-            label: 'EMPLOYEE ID',          
-            field: 'Employee_ID',
-            name:  'Employee_ID',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-
-            
-          },
-          {
-            label: 'USERNAME',
-            field: 'Username',
-            name:  'Username',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-
-          },
-          {
-            label: 'NAME',
-            field: 'Name',
-            name:  'Name',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-
-          },
-          {
-            label: 'DEPARTMENT',
-            field: 'Department',
-            name:  'Department',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-           
-          },
-          {
-            label: 'USER ROLE',
-            field: 'User_Role',
-            name:  'User_Role',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size:1em'
-          }
-          
-    ]"
-            row-key="Ticket_ID"
-            :visible-columns="['Employee_ID', 'Username', 'Name', 'Department', 'User_Role']"
-            :rows-per-page-options="[5,9,10,15,20,25,30,0]"
-    >
-            <template #body="props">
-              <q-tr class="white" :props="props">
-                <q-td key="Employee_ID" class="text-center" style="color: black; font-style: inherit; 
-                font-size: 14px;" >
-                  {{ props.row.Employee_ID }}
-                </q-td>
-                <q-td key="Username" >
-                  {{ props.row.Username }}
-                </q-td>
-                <q-td key="Name" >
-                  {{ props.row.Name }}
-                </q-td>
-                <q-td key="Department">
-                  {{ props.row.Department }}
-                </q-td>
-                <q-td key="User_Role" class="text-center" style="color: black; font-style: inherit;">
-                  <q-chip>{{ props.row.User_Role }}</q-chip>
-                </q-td>
-              </q-tr>
-            </template>
-          </q-table>
-      </q-tab-panel>
-</q-tab-panels>
-
-     </q-page>
+      </q-table>
+    </div>
+  </q-page>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-const currentTab = ref('Active')
-const selection = ref()
-const selection1 = ref()
-</script>
+import { ref, computed } from 'vue';
+import { useForm } from '@inertiajs/vue3';
 
-<script>
-import { ref } from 'vue'
+// Employees are provided as a prop by the Express `/admin/EmployeeManagement` route.
+const props = defineProps({
+  employees: {
+    type: Array,
+    default: () => [],
+  },
+});
 
-export default {
-  setup () {
-    return {
-      password: ref(''),
-      isPwd: ref(true),
-    }
-  }
+const prompt = ref(false);
+const isPwd = ref(true);
+
+// Inertia form posts to the JSON API mounted under /api.
+const form = useForm({
+  firstname: '',
+  lastname: '',
+  department: null,
+  username: '',
+  password: '',
+  password_conf: '',
+  user_role: null,
+});
+
+function submit() {
+  form.post('/api/add_user', {
+    preserveScroll: true,
+    onSuccess: () => {
+      form.reset();
+      prompt.value = false;
+    },
+  });
 }
+
+const columns = [
+  {
+    label: 'EMPLOYEE ID',
+    field: 'user_number',
+    name: 'user_number',
+    align: 'center',
+    headerClasses: 'bg-teal-7 text-white',
+    headerStyle: 'font-size: 1em',
+  },
+  {
+    label: 'USERNAME',
+    field: 'username',
+    name: 'username',
+    align: 'center',
+    headerClasses: 'bg-teal-7 text-white',
+    headerStyle: 'font-size: 1em',
+  },
+  {
+    label: 'NAME',
+    field: 'full_name',
+    name: 'full_name',
+    align: 'center',
+    headerClasses: 'bg-teal-7 text-white',
+    headerStyle: 'font-size: 1em',
+  },
+  {
+    label: 'DEPARTMENT',
+    field: 'department',
+    name: 'department',
+    align: 'center',
+    headerClasses: 'bg-teal-7 text-white',
+    headerStyle: 'font-size: 1em',
+  },
+  {
+    label: 'USER ROLE',
+    field: 'role_name',
+    name: 'role_name',
+    align: 'center',
+    headerClasses: 'bg-teal-7 text-white',
+    headerStyle: 'font-size: 1em',
+  },
+];
+
+const ROLE_NAMES = {
+  1: 'Administrator',
+  2: 'Unit Head',
+  3: 'Supervisor',
+  4: 'Employee',
+};
+
+// Normalize raw user documents into the flat shape the table expects.
+const employeeRows = computed(() =>
+  props.employees.map((e) => ({
+    user_number: e.user_number,
+    username: e.username,
+    full_name:
+      e.full_name || `${e.firstname || ''} ${e.lastname || ''}`.trim(),
+    department: e.department,
+    role_name: e.role_name || ROLE_NAMES[e.user_role] || e.user_role,
+  }))
+);
 </script>
 
 <style lang="scss" scoped src="./EmployeeManagement.scss"></style>

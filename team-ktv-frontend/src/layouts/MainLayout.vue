@@ -16,48 +16,45 @@
     </q-header>
 
     <q-footer elevated class="f">
-        <q-toolbar class="bg-teal-10">
-        </q-toolbar>
-      </q-footer>
+      <q-toolbar class="bg-teal-10" />
+    </q-footer>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="draw">
       <q-list class="sidebar">
         <q-item-label header style="padding: 0%;">
-          <img class="logo" src="src/assets/logo.svg">
+          <img class="logo" src="assets/logo.svg" alt="logo">
         </q-item-label>
-        <div @click="$router.push('/')" class="sidebar__item"> <q-icon name="home" class="home-icon" size="25px" /> Dashboard</div>
-        <div @click="$router.push('/TaskList')" class="sidebar__item"><q-icon name="assignment" class="assignment-icon" size="25px" /> Task List</div>
-        <div @click="$router.push('/DepartmentTask')" class="sidebar__item"> <q-icon name="home_work" class="homework-icon" size="25px" /> Department Task</div>
-        <div @click="$router.push('/EmployeeList')" class="sidebar__item"> <q-icon name="assignment_ind" class="emplist-icon" size="25px" /> Employee List</div>
-        <div @click="logout" class="sidebar__item"> <q-icon name="logout" class="logout-icon" size="25px"  /> Logout</div>
+        <Link href="/" class="sidebar__item"><q-icon name="home" class="home-icon" size="25px" /> Dashboard</Link>
+        <Link href="/TaskList" class="sidebar__item"><q-icon name="assignment" class="assignment-icon" size="25px" /> Task List</Link>
+        <Link href="/DepartmentTask" class="sidebar__item"><q-icon name="home_work" class="homework-icon" size="25px" /> Department Task</Link>
+        <Link href="/EmployeeList" class="sidebar__item"><q-icon name="assignment_ind" class="emplist-icon" size="25px" /> Employee List</Link>
+        <div @click="logout" class="sidebar__item"><q-icon name="logout" class="logout-icon" size="25px" /> Logout</div>
 
         <q-item-label header style="padding: 0%;">
-          <img class="pic2" style="width: 280px; margin-top: 40px;" src="src/assets/pic.jpg">
+          <img class="pic2" style="width: 280px; margin-top: 40px;" src="assets/pic.jpg" alt="">
         </q-item-label>
       </q-list>
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <slot />
     </q-page-container>
   </q-layout>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { Link, router } from '@inertiajs/vue3';
 
-const router = useRouter();
-const leftDrawerOpen = ref(false)
+const leftDrawerOpen = ref(false);
 
 function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value
+  leftDrawerOpen.value = !leftDrawerOpen.value;
 }
 
 function logout() {
-  localStorage.removeItem('logged_in_user');
-  localStorage.removeItem('user_role');
-  router.push('/login');
+  router.post('/logout');
 }
 </script>
+
 <style lang="scss" scoped src="./MainLayout.scss"></style>

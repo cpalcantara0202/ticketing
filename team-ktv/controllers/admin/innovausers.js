@@ -1,5 +1,15 @@
 const Users = require('../../models/db_Innova_users');
 const { all }           = require('axios');
+const bcrypt            = require('bcrypt');
+
+const BCRYPT_ROUNDS = 10;
+
+// Detect a bcrypt hash so we can support both freshly-hashed accounts and any
+// legacy plaintext rows during transition.
+function isBcryptHash(value)
+{
+    return typeof value === 'string' && /^\$2[aby]\$\d{2}\$/.test(value);
+}
 
 module.exports = class TemplateController {
 
@@ -62,6 +72,10 @@ module.exports = class TemplateController {
             }
             else 
             {
+                // Hash the password before persisting; never store plaintext.
+                const hashed = await bcrypt.hash(save_user.password, BCRYPT_ROUNDS);
+                save_user.password = hashed;
+                save_user.password_conf = hashed;
                 await users.add(save_user);
                 return global.controller.handleSuccess(req, res, { response_data: "User Successfully Created" });
             }
@@ -72,38 +86,81 @@ module.exports = class TemplateController {
 
         let users        = new Users();
         const check      = await users.findOne({ username: req.body.username })
-    
-        if (!check) 
+
+        const fail = (message) => {
+            // Inertia form submissions expect a redirect back with flash errors;
+            // fall back to JSON for non-Inertia callers.
+            if (req.headers['x-inertia'] === 'true' || req.session) {
+                if (req.session) req.session.errors = { login: message };
+                return res.inertiaLocation('/login');
+            }
+            return global.controller.handleError(req, res, message);
+        };
+
+        if (!check)
         {
-            return global.controller.handleError(req, res, "Account doesn't exist.");
+            return fail("Account doesn't exist.");
         }
-        else if (check.password == req.body.password)
-        {       
-            console.log(check);
-            
-                    if (check.user_role=='1')
 
-                     {
-                         return global.controller.handleSuccess(req, res, { response_data: "Sucessfully Logged-In as Admin", user_info: check }); 
-                     }
-              
-                    else if (check.user_role=='2')
-                     {
-                        return global.controller.handleSuccess(req, res, { response_data: "Sucessfully Logged-In as Unit Head", user_info: check });   
-                     }
-                    
-                    else
-                     {
+        // Verify password: support bcrypt hashes, and transparently upgrade any
+        // legacy plaintext row to a hash on successful login.
+        let passwordOk = false;
+        if (isBcryptHash(check.password))
+        {
+            passwordOk = await bcrypt.compare(req.body.password, check.password);
+        }
+        else
+        {
+            passwordOk = check.password === req.body.password;
+            if (passwordOk)
+            {
+                try {
+                    const hashed = await bcrypt.hash(req.body.password, BCRYPT_ROUNDS);
+                    await users.update(check._id, { password: hashed, password_conf: hashed });
+                } catch (e) { /* non-fatal: upgrade on next login */ }
+            }
+        }
 
-                         return global.controller.handleSuccess(req, res, { response_data: "Sucessfully Logged-In as Rank-in-file", user_info: check });   
-                     }
-              }           
-         else
-        {        
-            return global.controller.handleError(req, res, "Invalid Password");
+        if (!passwordOk)
+        {
+            return fail("Invalid Password");
+        }
 
-        }   
- }
+        // Establish the session. Store only safe, non-sensitive fields.
+        const sessionUser = {
+            _id: String(check._id),
+            user_number: check.user_number,
+            firstname: check.firstname,
+            lastname: check.lastname,
+            department: check.department,
+            username: check.username,
+            user_role: check.user_role,
+        };
+
+        if (req.session)
+        {
+            req.session.user = sessionUser;
+        }
+
+        // Inertia flow: redirect based on role.
+        if (req.headers['x-inertia'] === 'true' || req.session)
+        {
+            const target = String(check.user_role) === '1' ? '/admin' : '/';
+            return res.inertiaLocation(target);
+        }
+
+        // Legacy JSON flow (kept for any remaining API callers).
+        return global.controller.handleSuccess(req, res, { response_data: "Successfully Logged-In", user_info: sessionUser });
+    }
+
+    //Logout: destroy the session//
+    async logOut(req, res) {
+        if (req.session)
+        {
+            req.session.destroy(() => {});
+        }
+        return res.inertiaLocation('/login');
+    }
 
    //retrieve unit headList
     async getListunithead(req, res) {

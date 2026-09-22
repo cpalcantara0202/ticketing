@@ -6,6 +6,7 @@
   "scripts": {
     "dev-reset": "pkill -f nodemon",
     "dev": "nodemon -L",
+    "dev:all": "concurrently --names \"WEB,API\" --prefix-colors \"cyan,magenta\" \"npm --prefix ../team-ktv-frontend run dev\" \"nodemon -L\"",
     "docker-dev": "cd docker/dev && docker compose up --build -d",
     "docker-dev-stop": "cd docker/dev && docker compose down",
     "watch": "docker logs -f development-backend",
@@ -17,6 +18,7 @@
   "devDependencies": {
     "chai": "^4.3.7",
     "chai-http": "^4.4.0",
+    "concurrently": "^9.1.0",
     "mocha": "^10.2.0",
     "nodemon": "^2.0.22"
   },
@@ -30,6 +32,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-fileupload": "^1.4.0",
+    "express-session": "^1.18.1",
     "express-validator": "^6.15.0",
     "geer-payment": "^1.0.7",
     "http": "0.0.1-security",

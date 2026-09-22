@@ -5,37 +5,47 @@
       <q-toolbar class="header__toolbar">
         <q-btn flat dense round icon="menu" aria-label="Menu" class="toggle" @click="toggleLeftDrawer" />
         <q-space />
-        <img class="logo" src="src/assets/logo.svg">
+        <img class="logo" src="assets/logo.svg" alt="logo">
         <q-space />
       </q-toolbar>
     </q-header>
 
     <q-footer elevated class="f">
-        <q-toolbar class="bg-teal-10">
-        </q-toolbar>
-      </q-footer>
+      <q-toolbar class="bg-teal-10" />
+    </q-footer>
+
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="draw">
+      <q-list class="sidebar">
+        <Link href="/admin" class="sidebar__item"><q-icon name="dashboard" size="25px" /> Dashboard</Link>
+        <Link href="/admin/DepartmentManagement" class="sidebar__item"><q-icon name="home_work" size="25px" /> Departments</Link>
+        <Link href="/admin/EmployeeManagement" class="sidebar__item"><q-icon name="group" size="25px" /> Employees</Link>
+        <Link href="/admin/JobOrderCategoryManagement" class="sidebar__item"><q-icon name="category" size="25px" /> Job Order Categories</Link>
+        <Link href="/admin/Reports" class="sidebar__item"><q-icon name="assessment" size="25px" /> Reports</Link>
+        <Link href="/admin/BackupAndRestore" class="sidebar__item"><q-icon name="backup" size="25px" /> Backup &amp; Restore</Link>
+        <Link href="/admin/AuditTrail" class="sidebar__item"><q-icon name="history" size="25px" /> Audit Trail</Link>
+        <div @click="logout" class="sidebar__item"><q-icon name="logout" size="25px" /> Logout</div>
+      </q-list>
+    </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <slot />
     </q-page-container>
   </q-layout>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { Link, router } from '@inertiajs/vue3';
 
-const router = useRouter();
-const leftDrawerOpen = ref(false)
+const leftDrawerOpen = ref(false);
 
 function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value
+  leftDrawerOpen.value = !leftDrawerOpen.value;
 }
 
 function logout() {
-  localStorage.removeItem('logged_in_user');
-  localStorage.removeItem('user_role');
-  router.push('/login');
+  router.post('/logout');
 }
 </script>
+
 <style lang="scss" scoped src="./Admin.scss"></style>

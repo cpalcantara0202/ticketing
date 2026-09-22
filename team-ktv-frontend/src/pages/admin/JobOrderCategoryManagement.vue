@@ -1,28 +1,23 @@
 <template>
-    <q-input filled :model-value="`${dateRange.from} - ${dateRange.to}`">
-     <template v-slot:append>
-       <q-icon name="event" class="cursor-pointer">
-         <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-           <q-date v-model="dateRange" range>
-             <div class="row items-center justify-end">
-               <q-btn v-close-popup label="Close" color="primary" flat />
-             </div>
-           </q-date>
-         </q-popup-proxy>
-       </q-icon>
-     </template>
-   </q-input>
+  <q-page padding>
+    <div class="text-h5 q-mb-md">Job Order Categories</div>
+    <q-table
+      v-if="categories.length"
+      :rows="categories"
+      row-key="id"
+      flat
+      bordered
+    />
+    <div v-else class="text-grey">No job order categories found.</div>
+  </q-page>
 </template>
 
-<script>
-import { ref } from 'vue'
-
-export default {
- setup () {
-   const dateRange = ref({from: ' ', to: ''})
-   return {
-     dateRange
-   }
- }
-}
+<script setup>
+// Categories are provided as props by the Express route.
+defineProps({
+  categories: {
+    type: Array,
+    default: () => [],
+  },
+});
 </script>
