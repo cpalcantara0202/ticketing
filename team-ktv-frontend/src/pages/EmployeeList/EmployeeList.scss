@@ -1,17 +1,78 @@
-.table{
-    font-family: inherit;
-    display: block;
-    margin-top: 30px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 80%;
-}
-.filter {
-    border-radius: 5px;
-    box-shadow: 1px 1px 5px rgb(128, 128, 128);
-    max-width: 315px;
-    display: block;
-    margin-left: 640px;
-    margin-top: 27px;
+.emplist {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
 
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  &__title {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+    color: #00695c;
+  }
+
+  &__subtitle {
+    margin: 4px 0 0;
+    color: #607d8b;
+    font-size: 14px;
+  }
+
+  &__card {
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  }
+
+  &__toolbar {
+    padding: 16px;
+  }
+
+  &__search {
+    max-width: 320px;
+  }
+}
+
+:deep(.q-table td),
+:deep(.q-table th) {
+  white-space: normal;
+}
+
+:deep(.q-table thead th) {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.rating-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #607d8b;
+}
+
+.create-user-card {
+  width: 100%;
+  max-width: 520px;
+}
+
+@media (max-width: 599px) {
+  .emplist {
+    padding: 16px;
+  }
+  .emplist__title {
+    font-size: 22px;
+  }
+  .emplist__header {
+    align-items: flex-start;
+  }
+  .emplist__search {
+    max-width: 100%;
+  }
 }

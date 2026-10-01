@@ -1,783 +1,290 @@
 <template>
-    <q-page 
-    >
-    <q-tabs class="check1" v-model="currentTab" align="right" :breakpoint="600" no-caps dense>
-                    <!-------------------- ONGOING ------------------------->
+  <q-page class="depttask">
+    <!-- Header -->
+    <div class="depttask__header">
+      <div>
+        <h1 class="depttask__title">Department Task</h1>
+        <p class="depttask__subtitle">Tickets routed to your department</p>
+      </div>
+      <q-btn
+        flat
+        round
+        icon="refresh"
+        color="teal-8"
+        :loading="loading"
+        aria-label="Refresh"
+        @click="loadCurrentTab"
+      />
+    </div>
 
-        <q-tab label="Ongoing" name="Ongoing" icon="sync" stack
-        class="bg-white text-primary">
-             <q-badge color="red" floating>5</q-badge>
-        </q-tab> 
-                    <!-------------------- FOR APPROVAL ------------------------->
-
-        <q-tab label="For Approval" name="ForApproval" icon="approval" stack
-        class="bg-primary text-white">
-            <q-badge color="red" floating>12</q-badge>
-        </q-tab> 
-                    <!-------------------- FOR REVIEW ------------------------->
-
-        <q-tab label="For Review" name="ForReview" icon="rate_review" stack
-        class="bg-white text-primary">
-            <q-badge color="red" floating>1</q-badge>
-        </q-tab>
-                    <!-------------------- DONE ------------------------->
-
-        <q-tab label="Done" name="Done" icon="task" stack
-        class="bg-primary text-white">
-            <q-badge color="red" floating>20</q-badge>
-        </q-tab> 
-    </q-tabs>
-
-    <q-tab-panels v-model="currentTab">
-
-<!-----------------------Ongoing Table--------------------->
-
-<q-tab-panel name="Ongoing" class="tasklist_tbl">
-  <q-table  separator="cell" wrap-cells dense
-  :rows="[
-  { 
-  Ticket_ID:'001',
-  Subject:'Internet Problems',
-  Category:'Incident Report',
-  Created_By:'panda@gmail.com',
-  Created_Date:'07-08-2023',
-  Priority:'Low Priority',
-  Assignee:'Joana Belgica',
-  Assigned_By:'Caryl Apeladas',
-  Assign_Date:'2023-07-11'
-},
-{
-  Ticket_ID:'002',
-  Subject:'Room Cleaning',
-  Category:'Service Request',
-  Created_By:'cat@gmail.com',
-  Created_Date:'07-08-2023',
-  Priority:'Low Priority',
-  Assignee:'Joana Belgica',
-  Assigned_By:'Caryl Apeladas',
-  Assign_Date:'2023-07-11'
-},
-{
-  Ticket_ID:'003',
-  Subject:'Bills Payment',
-  Category:'Routine',
-  Created_By:'dog@gmail.com',
-  Created_Date:'07-08-2023',
-  Priority:'Low Priority',
-  Assignee:'Joana Belgica',
-  Assigned_By:'Caryl Apeladas',
-  Assign_Date:'2023-07-11'
-},
-{
-  Ticket_ID:'001',
-  Subject:'Internet Problem',
-  Category:'Incident Report',
-  Created_By:'panda@gmail.com',
-  Created_Date:'07-08-2023',
-  Priority:'Low Priority',
-  Assignee:'Joana Belgica',
-  Assigned_By:'Caryl Apeladas',
-  Assign_Date:'2023-07-11'
-},
-{
-  Ticket_ID:'002',
-  Subject:'Room Cleaning',
-  Category:'Service Request',
-  Created_By:'cat@gmail.com',
-  Created_Date:'07-08-2023',
-  Priority:'Low Priority',
-  Assignee:'Joana Belgica',
-  Assigned_By:'Caryl Apeladas',
-  Assign_Date:'2023-07-11'
-},
-{
-  Ticket_ID:'003',
-  Subject:'Bills Payment',
-  Category:'Routine',
-  Created_By:'dog@gmail.com',
-  Created_Date:'07-08-2023',
-  Priority:'Low Priority',
-  Assignee:'Joana Belgica',
-  Assigned_By:'Caryl Apeladas',
-  Assign_Date:'2023-07-11'
-},
-{
-  Ticket_ID:'003',
-  Subject:'Development',
-  Category:'Project',
-  Created_By:'dog@gmail.com',
-  Created_Date:'07-08-2023',
-  Priority:'Low Priority',
-  Assignee:'Joana Belgica',
-  Assigned_By:'Caryl Apeladas',
-  Assign_Date:'2023-07-11'
-},
-]"
-style="font-family: inherit"
-:columns="[
-    {
-      label: 'TICKET ID',          
-      field: 'Ticket_ID',
-      name:  'Ticket_ID',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size: 1em'
-
-      
-    },
-    {
-      label: 'SUBJECT',
-      field: 'Subject',
-      name:  'Subject',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size: 1em'
-
-    },
-    {
-      label: 'CATEGORY',
-      field: 'Category',
-      name:  'Category',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size: 1em'
-
-    },
-    {
-      label: 'CREATED BY',
-      field: 'Created_By',
-      name:  'Created_By',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size: 1em'
-     
-    },
-    {
-      label: 'CREATED DATE',
-      field: 'Created_Date',
-      name:  'Created_Date',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size: 1em'
-     
-    },
-    {
-      label: 'PRIORITY',
-      field: 'Priority',
-      name:  'Priority',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size:1em'
-    },
-    {
-      label: 'ASSIGNEE',
-      field: 'Assignee',
-      name:  'Assignee',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size:1em'
-    },
-    {
-      label: 'ASSIGNED BY',
-      field: 'Assigned_By',
-      name:  'Assigned_By',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size:1em'
-    },
-    {
-      label: 'ASSIGN DATE',
-      field: 'Assign_Date',
-      name:  'Assign_Date',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size: 1em'
-    }
-]"
-      row-key="Ticket_ID"
-      :visible-columns="['Ticket_ID', 'Subject', 'Category', 'Created_By', 'Created_Date', 'Priority', 'Assignee', 'Assigned_By', 'Assign_Date']"
-      :rows-per-page-options="[5,9,10,15,20,25,30,0]"
->
-      <template #body="props">
-        <q-tr class="white" :props="props">
-          <q-td key="Ticket_ID" class="text-center" style="color: black; font-style: inherit; 
-          font-size: 14px;" >
-            {{ props.row.Ticket_ID }}
-          </q-td>
-          <q-td key="Subject" >
-            {{ props.row.Subject }}
-          </q-td>
-          <q-td key="Category" >
-            {{ props.row.Category }}
-          </q-td>
-          <q-td key="Created_By">
-            {{ props.row.Created_By }}
-          </q-td>
-          <q-td key="Created_Date">
-            {{ props.row.Created_Date }}
-          </q-td>
-          <q-td key="Priority" class="text-center" style="color: black; font-style: inherit;">
-            <q-chip>{{ props.row.Priority }}</q-chip>
-          </q-td>
-          <q-td key="Assignee">
-            {{ props.row.Assignee }}
-          </q-td>
-          <q-td key="Assigned_By">
-            {{ props.row.Assigned_By }}
-          </q-td>
-          <q-td key="Assign_Date" class="text-center" style="color: black; font-style: inherit; font-size: 14px;">
-            {{ props.row.Assign_Date }}
-          </q-td>
-        </q-tr>
+    <!-- Error banner -->
+    <q-banner v-if="error" class="bg-red-1 text-red-9 q-mb-md" rounded>
+      <template #avatar>
+        <q-icon name="error_outline" color="red-8" />
       </template>
-    
-    
-    </q-table>
-</q-tab-panel>
+      {{ error }}
+      <template #action>
+        <q-btn flat color="red-9" label="Retry" @click="loadCurrentTab" />
+      </template>
+    </q-banner>
 
-<!-----------------------For Approval Table--------------------->
+    <!-- Tabs -->
+    <q-card flat bordered class="depttask__card">
+      <q-tabs
+        v-model="currentTab"
+        class="text-teal-8"
+        active-color="teal-8"
+        indicator-color="teal-7"
+        align="left"
+        no-caps
+        @update:model-value="loadCurrentTab"
+      >
+        <q-tab v-for="tab in tabs" :key="tab.name" :name="tab.name" :icon="tab.icon">
+          <div class="row items-center no-wrap q-gutter-x-xs">
+            <span>{{ tab.label }}</span>
+            <q-badge v-if="counts[tab.name]" color="red" rounded>
+              {{ counts[tab.name] }}
+            </q-badge>
+          </div>
+        </q-tab>
+      </q-tabs>
 
-<q-tab-panel name="ForApproval" class="tasklist_tbl">
-      <q-table separator="cell" wrap-cells 
-      :rows="[
-        {
-          Ticket_ID:'001',
-          Subject:'Internet Problem',
-          Category:'Incident Report',
-          Created_By:'Caryl Apeladas',
-          Created_Date:'2023-07-11',
-          Priority:'Low Priority',
-        },
-        {
-          Ticket_ID:'002',
-          Subject:'Internet Problem',
-          Category:'Incident Report',
-          Created_By:'Caryl Apeladas',
-          Created_Date:'2023-07-11',
-          Priority:'High Priority',
-          
-        },
-        {
-          Ticket_ID:'003',
-          Subject:'Internet Problem',
-          Category:'Incident Report',
-          Created_By:'Caryl Apeladas',
-          Created_Date:'2023-07-11',
-          Priority:'Low Priority',
-        },
-        {
-          Ticket_ID:'002',
-          Subject:'Internet Problem',
-          Category:'Incident Report',
-          Created_By:'Caryl Apeladas',
-          Created_Date:'2023-07-11',
-          Priority:'High Priority'
-        },
-        {
-          Ticket_ID:'003',
-          Subject:'Internet Problem',
-          Category:'Incident Report',
-          Created_By:'Caryl Apeladas',
-          Created_Date:'2023-07-11',
-          Priority:'Low Priority',
-          
-        }
-      ]"
-      style="font-family: inherit"
-      :columns="[
-        {
-          label: 'TICKET ID',
-          field: 'Ticket_ID',
-          name:  'Ticket_ID',
-          align:'center',
-          headerClasses: 'bg-teal-7 text-white',
-          headerStyle: 'font-size: 1em'
-          
-        },
-        {
-          label: 'SUBJECT',
-          field: 'Subject',
-          name:  'Subject',
-          align: 'center',
-          headerClasses: 'bg-teal-7 text-white',
-          headerStyle: 'font-size: 1em'
-        },
-        {
-          label: 'CATEGORY',
-          field: 'Category',
-          name:  'Category',
-          align: 'center',
-          headerClasses: 'bg-teal-7 text-white',
-          headerStyle: 'font-size: 1em'
-        },
-        {
-          label: 'CREATED BY',
-          field: 'Created_By',
-          name:  'Created_By',
-          align: 'center',
-          headerClasses: 'bg-teal-7 text-white',
-          headerStyle: 'font-size: 1em'
-        },
-        {
-          label: 'CREATED DATE',
-          field: 'Created_Date',
-          name:  'Created_Date',
-          align: 'center',
-          headerClasses: 'bg-teal-7 text-white',
-          headerStyle: 'font-size: 1em'
-        },
-        {
-          label: 'PRIORITY',
-          field: 'Priority',
-          name:  'Priority',
-          align: 'center',
-          headerClasses: 'bg-teal-7 text-white',
-          headerStyle: 'font-size: 1em'
-        },
-      ]" 
-          row-key="Ticket_ID"
-          :visible-columns="['Ticket_ID', 'Subject', 'Category', 'Created_By', 'Created_Date','Priority']"
-          :rows-per-page-options="[5,9,10,15,20,25,30,0]"
-  >
-          <template #body="props">
-            <q-tr class="white" :props="props">
-              <q-td key="Ticket_ID" class="text-center" style="color: black; font-style: inherit; font-size: 14px;">
-                {{ props.row.Ticket_ID }}
+      <q-separator />
+
+      <q-tab-panels v-model="currentTab" animated>
+        <q-tab-panel v-for="tab in tabs" :key="tab.name" :name="tab.name" class="q-pa-none">
+          <q-table
+            :rows="rows"
+            :columns="tab.columns"
+            row-key="ticketid"
+            :loading="loading"
+            separator="horizontal"
+            flat
+            :rows-per-page-options="[5, 10, 15, 20, 0]"
+            no-data-label="No records found"
+          >
+            <template #body-cell-priority="props">
+              <q-td :props="props">
+                <q-chip :color="priorityColor(props.value)" text-color="white" dense square>
+                  {{ props.value || '—' }}
+                </q-chip>
               </q-td>
-              <q-td key="Subject">
-                {{ props.row.Subject }}
+            </template>
+
+            <template #body-cell-status="props">
+              <q-td :props="props">
+                <q-chip :color="statusColor(props.value)" text-color="white" dense square>
+                  {{ props.value || '—' }}
+                </q-chip>
               </q-td>
-              <q-td key="Category">
-                {{ props.row.Category }}
+            </template>
+
+            <template #body-cell-rating="props">
+              <q-td :props="props">
+                <q-rating
+                  :model-value="Number(props.value) || 0"
+                  size="18px"
+                  color="amber"
+                  readonly
+                />
               </q-td>
-              <q-td key="Created_By">
-                {{ props.row.Created_By }}
-              </q-td>
-              <q-td key="Created_Date" class="text-center" style="color: black; font-style: inherit; font-size: 14px;">
-                {{ props.row.Created_Date }}
-              </q-td>
-              <q-td key="Priority" class="text-center" style="color: black; font-style: inherit; font-size: 14px;">
-                <q-chip>{{ props.row.Priority }}</q-chip>
-              </q-td>
-            </q-tr>
-          </template>
-        
-        
-        </q-table>
-
-    </q-tab-panel>
-
-    
-<!-----------------------For Review Table--------------------->
-
-<q-tab-panel name="ForReview" class="tasklist_tbl">
-  <q-table  separator="cell" wrap-cells dense
-  :rows="[
-  { 
-  Ticket_ID:'001',
-  Subject:'Internet Problems',
-  Category:'Incident Report',
-  Created_By:'panda@gmail.com',
-  Created_Date:'07-08-2023',
-  Priority:'Low Priority',
-  Assignee:'Joana Belgica',
-  Completed_Date:'2023-07-11'
-},
-{
-  Ticket_ID:'002',
-  Subject:'Room Cleaning',
-  Category:'Service Request',
-  Created_By:'cat@gmail.com',
-  Created_Date:'07-08-2023',
-  Priority:'Low Priority',
-  Assignee:'Joana Belgica',
-  Assigned_By:'Caryl Apeladas',
-  Completed_Date:'2023-07-11'
-},
-{
-  Ticket_ID:'003',
-  Subject:'Bills Payment',
-  Category:'Routine',
-  Created_By:'dog@gmail.com',
-  Created_Date:'07-08-2023',
-  Priority:'Low Priority',
-  Assignee:'Joana Belgica',
-  Assigned_By:'Caryl Apeladas',
-  Completed_Date:'2023-07-11'
-},
-{
-  Ticket_ID:'001',
-  Subject:'Internet Problem',
-  Category:'Incident Report',
-  Created_By:'panda@gmail.com',
-  Created_Date:'07-08-2023',
-  Priority:'Low Priority',
-  Assignee:'Joana Belgica',
-  Assigned_By:'Caryl Apeladas',
-  Completed_Date:'2023-07-11'
-},
-{
-  Ticket_ID:'002',
-  Subject:'Room Cleaning',
-  Category:'Service Request',
-  Created_By:'cat@gmail.com',
-  Created_Date:'07-08-2023',
-  Priority:'Low Priority',
-  Assignee:'Joana Belgica',
-  Assigned_By:'Caryl Apeladas',
-  Completed_Date:'2023-07-11'
-},
-{
-  Ticket_ID:'003',
-  Subject:'Bills Payment',
-  Category:'Routine',
-  Created_By:'dog@gmail.com',
-  Created_Date:'07-08-2023',
-  Priority:'Low Priority',
-  Assignee:'Joana Belgica',
-  Assigned_By:'Caryl Apeladas',
-  Completed_Date:'2023-07-11'
-},
-{
-  Ticket_ID:'003',
-  Subject:'Development',
-  Category:'Project',
-  Created_By:'dog@gmail.com',
-  Created_Date:'07-08-2023',
-  Priority:'Low Priority',
-  Assignee:'Joana Belgica',
-  Assigned_By:'Caryl Apeladas',
-  Completed_Date:'2023-07-11'
-},
-]"
-style="font-family: inherit"
-:columns="[
-    {
-      label: 'TICKET ID',          
-      field: 'Ticket_ID',
-      name:  'Ticket_ID',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size: 1em'
-
-      
-    },
-    {
-      label: 'SUBJECT',
-      field: 'Subject',
-      name:  'Subject',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size: 1em'
-
-    },
-    {
-      label: 'CATEGORY',
-      field: 'Category',
-      name:  'Category',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size: 1em'
-
-    },
-    {
-      label: 'CREATED BY',
-      field: 'Created_By',
-      name:  'Created_By',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size: 1em'
-     
-    },
-    {
-      label: 'CREATED DATE',
-      field: 'Created_Date',
-      name:  'Created_Date',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size: 1em'
-     
-    },
-    {
-      label: 'PRIORITY',
-      field: 'Priority',
-      name:  'Priority',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size:1em'
-    },
-    {
-      label: 'ASSIGNEE',
-      field: 'Assignee',
-      name:  'Assignee',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size:1em'
-    },
-    {
-      label: 'COMPLETED DATE',
-      field: 'Completed_Date',
-      name:  'Completed_Date',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size:1em'
-    },
-    
-]"
-      row-key="Ticket_ID"
-      :visible-columns="['Ticket_ID', 'Subject', 'Category', 'Created_By', 'Created_Date', 'Priority', 'Assignee', 'Completed_Date']"
-      :rows-per-page-options="[5,9,10,15,20,25,30,0]"
->
-      <template #body="props">
-        <q-tr class="white" :props="props">
-          <q-td key="Ticket_ID" class="text-center" style="color: black; font-style: inherit; 
-          font-size: 14px;" >
-            {{ props.row.Ticket_ID }}
-          </q-td>
-          <q-td key="Subject" >
-            {{ props.row.Subject }}
-          </q-td>
-          <q-td key="Category" >
-            {{ props.row.Category }}
-          </q-td>
-          <q-td key="Created_By">
-            {{ props.row.Created_By }}
-          </q-td>
-          <q-td key="Created_Date" class="text-center" style="color: black; font-style: inherit;">
-            {{ props.row.Created_Date }}
-          </q-td>
-          <q-td key="Priority" class="text-center" style="color: black; font-style: inherit;">
-            <q-chip>{{ props.row.Priority }}</q-chip>
-          </q-td>
-          <q-td key="Assignee">
-            {{ props.row.Assignee }}
-          </q-td>
-          <q-td key="Completed_Date" class="text-center" style="color: black; font-style: inherit; font-size: 14px;">
-            {{ props.row.Completed_Date }}
-          </q-td>
-        </q-tr>
-      </template>  
-    </q-table>
-</q-tab-panel>
-<!-----------------------Done Table--------------------->
-
-<q-tab-panel name="Done" class="tasklist_tbl">
-  <q-table  separator="cell" wrap-cells dense
-  :rows="[
-  { 
-  Ticket_ID:'001',
-  Subject:'Internet Problems',
-  Category:'Incident Report',
-  Created_By:'panda@gmail.com',
-  Created_Date:'07-08-2023',
-  Priority:'Low Priority',
-  Assignee:'Joana Belgica',
-  Completed_Date:'2023-07-11',
-  Rate:'5.0'
-},
-{
-  Ticket_ID:'002',
-  Subject:'Room Cleaning',
-  Category:'Service Request',
-  Created_By:'cat@gmail.com',
-  Created_Date:'07-08-2023',
-  Priority:'Low Priority',
-  Assignee:'Joana Belgica',
-  Assigned_By:'Caryl Apeladas',
-  Completed_Date:'2023-07-11',
-  Rate:'5.0'
-},
-{
-  Ticket_ID:'003',
-  Subject:'Bills Payment',
-  Category:'Routine',
-  Created_By:'dog@gmail.com',
-  Created_Date:'07-08-2023',
-  Priority:'Low Priority',
-  Assignee:'Joana Belgica',
-  Assigned_By:'Caryl Apeladas',
-  Completed_Date:'2023-07-11',
-  Rate:'5.0'
-},
-{
-  Ticket_ID:'001',
-  Subject:'Internet Problem',
-  Category:'Incident Report',
-  Created_By:'panda@gmail.com',
-  Created_Date:'07-08-2023',
-  Priority:'Low Priority',
-  Assignee:'Joana Belgica',
-  Assigned_By:'Caryl Apeladas',
-  Completed_Date:'2023-07-11',
-  Rate:'5.0'
-},
-{
-  Ticket_ID:'002',
-  Subject:'Room Cleaning',
-  Category:'Service Request',
-  Created_By:'cat@gmail.com',
-  Created_Date:'07-08-2023',
-  Priority:'Low Priority',
-  Assignee:'Joana Belgica',
-  Assigned_By:'Caryl Apeladas',
-  Completed_Date:'2023-07-11',
-  Rate:'5.0'
-},
-{
-  Ticket_ID:'003',
-  Subject:'Bills Payment',
-  Category:'Routine',
-  Created_By:'dog@gmail.com',
-  Created_Date:'07-08-2023',
-  Priority:'Low Priority',
-  Assignee:'Joana Belgica',
-  Assigned_By:'Caryl Apeladas',
-  Completed_Date:'2023-07-11',
-  Rate:'5.0'
-},
-{
-  Ticket_ID:'003',
-  Subject:'Development',
-  Category:'Project',
-  Created_By:'dog@gmail.com',
-  Created_Date:'07-08-2023',
-  Priority:'Low Priority',
-  Assignee:'Joana Belgica',
-  Assigned_By:'Caryl Apeladas',
-  Completed_Date:'2023-07-11',
-  Rate:'5.0'
-},
-]"
-style="font-family: inherit"
-:columns="[
-    {
-      label: 'TICKET ID',          
-      field: 'Ticket_ID',
-      name:  'Ticket_ID',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size: 1em'
-
-      
-    },
-    {
-      label: 'SUBJECT',
-      field: 'Subject',
-      name:  'Subject',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size: 1em'
-
-    },
-    {
-      label: 'CATEGORY',
-      field: 'Category',
-      name:  'Category',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size: 1em'
-
-    },
-    {
-      label: 'CREATED BY',
-      field: 'Created_By',
-      name:  'Created_By',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size: 1em'
-     
-    },
-    {
-      label: 'CREATED DATE',
-      field: 'Created_Date',
-      name:  'Created_Date',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size: 1em'
-     
-    },
-    {
-      label: 'PRIORITY',
-      field: 'Priority',
-      name:  'Priority',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size:1em'
-    },
-    {
-      label: 'ASSIGNEE',
-      field: 'Assignee',
-      name:  'Assignee',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size:1em'
-    },
-    {
-      label: 'COMPLETED DATE',
-      field: 'Completed_Date',
-      name:  'Completed_Date',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size:1em'
-    },
-    {
-      label: 'RATE',
-      field: 'Rate',
-      name:  'Rate',
-      align:'center',
-      headerClasses: 'bg-teal-7 text-white',
-      headerStyle: 'font-size:1em'
-    },
-    
-]"
-      row-key="Ticket_ID"
-      :visible-columns="['Ticket_ID', 'Subject', 'Category', 'Created_By', 'Created_Date', 'Priority', 'Assignee', 'Completed_Date', 'Rate']"
-      :rows-per-page-options="[5,9,10,15,20,25,30,0]"
->
-      <template #body="props">
-        <q-tr class="white" :props="props">
-          <q-td key="Ticket_ID" class="text-center" style="color: black; font-style: inherit; 
-          font-size: 14px;" >
-            {{ props.row.Ticket_ID }}
-          </q-td>
-          <q-td key="Subject" >
-            {{ props.row.Subject }}
-          </q-td>
-          <q-td key="Category" >
-            {{ props.row.Category }}
-          </q-td>
-          <q-td key="Created_By">
-            {{ props.row.Created_By }}
-          </q-td>
-          <q-td key="Created_Date" class="text-center" style="color: black; font-style: inherit;">
-            {{ props.row.Created_Date }}
-          </q-td>
-          <q-td key="Priority" class="text-center" style="color: black; font-style: inherit;">
-            <q-chip>{{ props.row.Priority }}</q-chip>
-          </q-td>
-          <q-td key="Assignee">
-            {{ props.row.Assignee }}
-          </q-td>
-          <q-td key="Completed_Date" class="text-center" style="color: black; font-style: inherit; font-size: 14px;">
-            {{ props.row.Completed_Date }}
-          </q-td>
-          <q-td key="Rate" class="text-center" style="color: black; font-style: inherit; font-size: 14px;">
-            {{ props.row.Rate }}
-          </q-td>
-        </q-tr>
-      </template>  
-    </q-table>
-</q-tab-panel>
-  </q-tab-panels>
-    </q-page>
+            </template>
+          </q-table>
+        </q-tab-panel>
+      </q-tab-panels>
+    </q-card>
+  </q-page>
 </template>
-      
 
-<script setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import { ref, reactive, onMounted, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { QTableProps } from 'quasar';
 
-const currentTab = ref('Ongoing')
+type TabName = 'Ongoing' | 'ForApproval' | 'ForReview' | 'Done';
 
+interface TicketRow {
+  ticketid: number | string;
+  subject: string;
+  category: string;
+  requestor?: string;
+  assign_date?: string;
+  assigned_date?: string;
+  priority: string;
+  status?: string;
+  assignee?: string;
+  assignor?: string;
+  completed_date?: string;
+  rating?: number;
+}
+
+interface TabDef {
+  name: TabName;
+  label: string;
+  icon: string;
+  endpoint: string;
+  columns: QTableProps['columns'];
+}
+
+const router = useRouter();
+
+const loading = ref(false);
+const error = ref('');
+const currentTab = ref<TabName>('Ongoing');
+const rows = ref<TicketRow[]>([]);
+const counts = reactive<Record<TabName, number>>({
+  Ongoing: 0,
+  ForApproval: 0,
+  ForReview: 0,
+  Done: 0,
+});
+
+function col(
+  name: string,
+  label: string,
+  field: string,
+  align: 'left' | 'center' | 'right' = 'left'
+): NonNullable<QTableProps['columns']>[number] {
+  return {
+    name,
+    label,
+    field,
+    align,
+    headerClasses: 'bg-teal-7 text-white',
+    sortable: true,
+  };
+}
+
+const baseColumns = [
+  col('ticketid', 'Ticket ID', 'ticketid', 'center'),
+  col('subject', 'Subject', 'subject'),
+  col('category', 'Category', 'category'),
+  col('requestor', 'Created By', 'requestor'),
+  col('priority', 'Priority', 'priority', 'center'),
+];
+
+const tabs = computed<TabDef[]>(() => [
+  {
+    name: 'Ongoing',
+    label: 'Ongoing',
+    icon: 'sync',
+    endpoint: 'unit_head_ongoing',
+    columns: [
+      ...baseColumns,
+      col('assignee', 'Assignee', 'assignee'),
+      col('assign_date', 'Assign Date', 'assign_date', 'center'),
+    ],
+  },
+  {
+    name: 'ForApproval',
+    label: 'For Approval',
+    icon: 'approval',
+    endpoint: 'unit_head_assigning',
+    columns: [
+      ...baseColumns,
+      col('assign_date', 'Created Date', 'assign_date', 'center'),
+    ],
+  },
+  {
+    name: 'ForReview',
+    label: 'For Review',
+    icon: 'rate_review',
+    endpoint: 'unit_head_returned',
+    columns: [
+      ...baseColumns,
+      col('assignee', 'Assignee', 'assignee'),
+      col('status', 'Status', 'status', 'center'),
+    ],
+  },
+  {
+    name: 'Done',
+    label: 'Done',
+    icon: 'task',
+    endpoint: 'unit_head_done',
+    columns: [
+      ...baseColumns,
+      col('assignee', 'Assignee', 'assignee'),
+      col('completed_date', 'Completed Date', 'completed_date', 'center'),
+      col('rating', 'Rating', 'rating', 'center'),
+    ],
+  },
+]);
+
+function priorityColor(priority: string): string {
+  const p = (priority || '').toLowerCase();
+  if (p.includes('high')) return 'red-6';
+  if (p.includes('medium')) return 'orange-7';
+  if (p.includes('low')) return 'green-6';
+  return 'grey-6';
+}
+
+function statusColor(status: string): string {
+  const s = (status || '').toLowerCase();
+  if (s.includes('open') || s.includes('approval')) return 'blue-6';
+  if (s.includes('assigned') || s.includes('ongoing') || s.includes('progress'))
+    return 'orange-7';
+  if (s.includes('closed') || s.includes('resolved') || s.includes('done'))
+    return 'green-6';
+  if (s.includes('return') || s.includes('misrouted')) return 'red-6';
+  return 'grey-6';
+}
+
+function getHeaders(): HeadersInit {
+  return {
+    'Content-Type': 'application/json',
+    logged_in_user: localStorage.getItem('logged_in_user') ?? '',
+  };
+}
+
+function ensureAuthed(): boolean {
+  if (!localStorage.getItem('logged_in_user')) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('logged_in_user');
+    localStorage.removeItem('user_role');
+    router.push('/login');
+    return false;
+  }
+  return true;
+}
+
+async function loadCurrentTab() {
+  if (!ensureAuthed()) return;
+
+  const tab = tabs.value.find((t) => t.name === currentTab.value);
+  if (!tab) return;
+
+  loading.value = true;
+  error.value = '';
+  try {
+    const res = await fetch(`${process.env.API_URL}/${tab.endpoint}`, {
+      headers: getHeaders(),
+    });
+    const data = await res.json();
+
+    if (data.status !== 'success') {
+      if (res.status === 400 || res.status === 401) {
+        router.push('/login');
+        return;
+      }
+      throw new Error(data.message || 'Failed to load department tasks.');
+    }
+
+    const list: TicketRow[] = Array.isArray(data.response_data)
+      ? data.response_data
+      : [];
+    rows.value = list;
+    counts[tab.name] = list.length;
+  } catch (err) {
+    console.error('DepartmentTask load error:', err);
+    error.value =
+      err instanceof Error ? err.message : 'Unable to load department tasks.';
+    rows.value = [];
+  } finally {
+    loading.value = false;
+  }
+}
+
+onMounted(loadCurrentTab);
 </script>
 
 <style lang="scss" scoped src="./DepartmentTask.scss"></style>

@@ -1,24 +1,56 @@
-.check1 {
-    margin-top: 39px;
-    margin-right: 30px;
+.depttask {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  &__title {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+    color: #00695c;
+  }
+
+  &__subtitle {
+    margin: 4px 0 0;
+    color: #607d8b;
+    font-size: 14px;
+  }
+
+  &__card {
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  }
 }
-.tasklist_tbl {
-    font-family: inherit;
-    display: block;
-    padding: 10px;
-    margin-top: 30px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 97%;
+
+:deep(.q-table td),
+:deep(.q-table th) {
+  white-space: normal;
 }
 
+:deep(.q-table thead th) {
+  font-size: 13px;
+  font-weight: 600;
+}
 
-
-
-
-
-
-.q-table td, .q-table th {
-    /* don't shorten cell contents */
-    white-space: normal !important;
+@media (max-width: 599px) {
+  .depttask {
+    padding: 16px;
+  }
+  .depttask__title {
+    font-size: 22px;
+  }
+  .depttask__header {
+    align-items: flex-start;
+  }
 }

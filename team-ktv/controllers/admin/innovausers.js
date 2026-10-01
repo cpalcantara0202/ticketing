@@ -89,13 +89,13 @@ module.exports = class TemplateController {
               
                     else if (check.user_role=='2')
                      {
-                        return global.controller.handleSuccess(req, res, { response_data: "Sucessfully Logged-In as Unit Head", user_info: check });   
+                        return global.controller.handleSuccess(req, res, { response_data: "Sucessfully Logged-In as Assignor", user_info: check });   
                      }
                     
                     else
                      {
 
-                         return global.controller.handleSuccess(req, res, { response_data: "Sucessfully Logged-In as Rank-in-file", user_info: check });   
+                         return global.controller.handleSuccess(req, res, { response_data: "Sucessfully Logged-In as Creator", user_info: check });   
                      }
               }           
          else

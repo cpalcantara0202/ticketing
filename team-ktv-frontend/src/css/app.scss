@@ -1,1 +1,47 @@
 // app global css in SCSS form
+
+// Shared animated gradient background (matches the login page).
+// Applied to the main layout's page container so every page shares it.
+.app-bg {
+  background: linear-gradient(-45deg, #009688, #00bcd4, #26a69a, #4db6ac, #00897b);
+  background-size: 400% 400%;
+  animation: appGradientShift 15s ease infinite;
+
+  // Let the gradient show through the page itself; content uses its own
+  // white cards/tables which float on top.
+  .q-page {
+    background: transparent;
+  }
+
+  // Page-level headings sit directly on the gradient, so make them readable.
+  .dashboard__title,
+  .dashboard__subtitle,
+  .dashboard__section,
+  .tasklist__title,
+  .tasklist__subtitle,
+  .depttask__title,
+  .depttask__subtitle,
+  .emplist__title,
+  .emplist__subtitle {
+    color: #ffffff !important;
+  }
+
+  .dashboard__subtitle,
+  .tasklist__subtitle,
+  .depttask__subtitle,
+  .emplist__subtitle {
+    opacity: 0.9;
+  }
+}
+
+@keyframes appGradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

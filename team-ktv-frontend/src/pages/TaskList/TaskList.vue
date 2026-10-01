@@ -1,703 +1,484 @@
 <template>
-  <q-page padding>
-    <q-tabs class="check1" v-model="currentTab" narrow-indicator align="right" :breakpoint="600" no-caps dense >
-            <!-------------------- MY TASK ------------------------->
-      <q-tab label="My Task" name="MyTask" icon="event_available" stack
-      class="bg-white text-primary">
-        <q-badge color="red" floating>1</q-badge>
-      </q-tab>
-            <!-------------------- SUBMITTED ------------------------->
-      <q-tab label="Submitted" name="Submitted" icon="check_circle_outline" stack
-      class="bg-primary text-white">
-        <q-badge color="red" floating>10</q-badge>
-      </q-tab>
-             <!--------------------FOR REVIEW ------------------------->
-
-      <q-tab label="For Review" name="ForReview" icon="rate_review" stack
-      class="bg-white text-primary">
-        <q-badge color="red" floating>8</q-badge>
-      </q-tab>
-      
-             <!--------------------CREATE JOB ORDER ------------------------->
-      <q-btn v-model="model" push glossy @click="prompt = true" 
-        style="background-color: #009688;" class="btnjob_order">
-        <q-icon name="create" />
-        <div class="txt">Create <br>Job Order</div>
-      </q-btn> 
-
-
-      <q-dialog v-model="prompt" persistent>
-      <q-card style="min-width: 43%">
-        <q-card-section class="pencil">
-          <q-icon class="create_icon q-gutter-m" size="3em" 
-           style="color: #009688" name="create" />
-          <div class="text-h6">Create Job Order</div>
-      </q-card-section>
-        
-
-    <!------Subject TxtBox----->
-
-    <q-form class="main" :breakpoint="600">
+  <q-page class="tasklist">
+    <!-- Header -->
+    <div class="tasklist__header">
       <div>
-        <q-input class="sub" outlined bottom-slots v-model="text" label="Subject" :dense="dense">
-          <template v-slot:prepend>
-            <q-icon name="subject" />
-          </template>
-        </q-input>
+        <h1 class="tasklist__title">Task List</h1>
+        <p class="tasklist__subtitle">Track and manage your job orders</p>
+      </div>
+      <q-btn
+        unelevated
+        color="teal-7"
+        icon="add"
+        label="Create Job Order"
+        no-caps
+        @click="openCreateDialog"
+      />
+    </div>
 
-            <!-----------------------Category Dropdown--------------------->
-    
-      <q-btn-dropdown class="category" split color="teal" push no-caps
-      @click="onMainClick">
-      <template v-slot:label>
-        <div class="row items-center no-wrap">
-          <q-icon left name="category" />
-          <div class="text-center">Category</div>
-        </div>
+    <!-- Error banner -->
+    <q-banner v-if="error" class="bg-red-1 text-red-9 q-mb-md" rounded>
+      <template #avatar>
+        <q-icon name="error_outline" color="red-8" />
       </template>
-        <q-list>  
-        <q-item clickable v-close-popup @click="onItemClick">
-          <q-item-section>
-            <q-item-label>Incident Report</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
-      <q-list>
-        <q-item clickable v-close-popup @click="onItemClick">
-          <q-item-section>
-            <q-item-label>Service Request</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
-      <q-list>
-        <q-item clickable v-close-popup @click="onItemClick">
-          <q-item-section>
-            <q-item-label>Routine</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
-      <q-list>
-        <q-item clickable v-close-popup @click="onItemClick">
-          <q-item-section>
-            <q-item-label>Ad hoc/Projects</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
-    </q-btn-dropdown>
-            
-            <!-----------------------Department Dropdown--------------------->
-
-    <q-btn-dropdown class="department" split color="teal" push no-caps
-      @click="onMainClick">
-      <template v-slot:label>
-        <div class="row items-center no-wrap">
-          <q-icon left name="home" />
-          <div class="text-center">Department</div>
-        </div>
+      {{ error }}
+      <template #action>
+        <q-btn flat color="red-9" label="Retry" @click="loadCurrentTab" />
       </template>
-        <q-list>  
-        <q-item clickable v-close-popup @click="onItemClick">
-          <q-item-section>
-            <q-item-label>Operations Department</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
-      <q-list>
-        <q-item clickable v-close-popup @click="onItemClick">
-          <q-item-section>
-            <q-item-label>Finance & Admin Department</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
-      <q-list>
-        <q-item clickable v-close-popup @click="onItemClick">
-          <q-item-section>
-            <q-item-label>Marketing Department</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
-      <q-list>
-        <q-item clickable v-close-popup @click="onItemClick">
-          <q-item-section>
-            <q-item-label>IT Department</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
-    </q-btn-dropdown>
+    </q-banner>
 
-                <!-----------------------Description--------------------->
+    <!-- Tabs -->
+    <q-card flat bordered class="tasklist__card">
+      <q-tabs
+        v-model="currentTab"
+        class="text-teal-8"
+        active-color="teal-8"
+        indicator-color="teal-7"
+        align="left"
+        no-caps
+        @update:model-value="loadCurrentTab"
+      >
+        <q-tab v-for="tab in tabs" :key="tab.name" :name="tab.name" :icon="tab.icon">
+          <div class="row items-center no-wrap q-gutter-x-xs">
+            <span>{{ tab.label }}</span>
+            <q-badge v-if="counts[tab.name]" color="red" rounded>
+              {{ counts[tab.name] }}
+            </q-badge>
+          </div>
+        </q-tab>
+      </q-tabs>
 
-    <q-input class="description" v-model="textareaModel"  clearable
-      type="textarea" color="teal" label="Description" @keydown="processTextareaFill"
-      @focus="processTextareaFill" :shadow-text="textareaShadowText">
-      <template v-slot:prepend>
-            <q-icon name="message" />
-          </template>
-    </q-input>
-      
-                  <!-----------------------Attachment--------------------->
+      <q-separator />
 
-      <p class="txtAttachment">Attachment:</p>
-      <q-input class="attachment"  @update:model-value="val => { files = val }"
-        multiple filled color="teal" type="file" hint="* Select Image"  />
-        
-                  <!-----------------------Priority--------------------->
+      <q-tab-panels v-model="currentTab" animated>
+        <q-tab-panel v-for="tab in tabs" :key="tab.name" :name="tab.name" class="q-pa-none">
+          <q-table
+            :rows="rows"
+            :columns="tab.columns"
+            row-key="ticketid"
+            :loading="loading"
+            separator="horizontal"
+            flat
+            :rows-per-page-options="[5, 10, 15, 20, 0]"
+            no-data-label="No records found"
+          >
+            <!-- Priority chip -->
+            <template #body-cell-priority="props">
+              <q-td :props="props">
+                <q-chip
+                  :color="priorityColor(props.value)"
+                  text-color="white"
+                  dense
+                  square
+                >
+                  {{ props.value || '—' }}
+                </q-chip>
+              </q-td>
+            </template>
 
-        <q-btn-dropdown class="Priority" split color="teal" push no-caps
-      @click="onMainClick">
-      <template v-slot:label>
-        <div class="row items-center no-wrap">
-          <q-icon left name="flag" />
-          <div class="txtpriority">Priority</div>
-        </div>
-      </template>
-        <q-list>  
-          <q-item clickable v-close-popup @click="onItemClick">
-            <q-item-section>
-              <q-item-label>High Priority</q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-list>
-        <q-list>  
-        <q-item clickable v-close-popup @click="onItemClick">
-          <q-item-section>
-            <q-item-label>Medium Priority</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
-      <q-list>
-        <q-item clickable v-close-popup @click="onItemClick">
-          <q-item-section>
-            <q-item-label>Low Priority</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
-    </q-btn-dropdown>
-      </div>   
-  </q-form>
-                  <!-----------------------Save and Cancel--------------------->
-
-  <q-card-actions align="right" class="text-primary">
-    <q-btn  flat label="Save" v-close-popup  />
-      <q-btn  flat label="Cancel" v-close-popup  />
-  </q-card-actions>
+            <!-- Status chip -->
+            <template #body-cell-status="props">
+              <q-td :props="props">
+                <q-chip
+                  :color="statusColor(props.value)"
+                  text-color="white"
+                  dense
+                  square
+                >
+                  {{ props.value || '—' }}
+                </q-chip>
+              </q-td>
+            </template>
+          </q-table>
+        </q-tab-panel>
+      </q-tab-panels>
     </q-card>
-  </q-dialog>
-</q-tabs>
 
-    <!--Tab Panel for my task, submit, review----------------------------------->
-    <q-tab-panels v-model="currentTab">
+    <!-- Create Job Order dialog -->
+    <q-dialog v-model="createDialog" persistent>
+      <q-card class="create-card">
+        <q-card-section class="row items-center q-gutter-sm">
+          <q-icon name="create" size="28px" color="teal-7" />
+          <div class="text-h6">Create Job Order</div>
+        </q-card-section>
 
-      <q-tab-panel name="MyTask" class="tasklist_tbl">
-        <q-table  separator="cell" wrap-cells 
-        :rows="[
-        { 
-        Ticket_ID:'001',
-        Subject:'Internet Problem',
-        Category:'Incident Report',
-        Created_By:'panda@gmail.com',
-        Priority:'Low Priority',
-        Assign_Date:'2023-07-11'
-      },
-      {
-        Ticket_ID:'002',
-        Subject:'Room Cleaning',
-        Category:'Service Request',
-        Created_By:'cat@gmail.com',
-        Priority:'Low Priority',
-        Assign_Date:'2023-07-11'
-      },
-      {
-        Ticket_ID:'003',
-        Subject:'Bills Payment',
-        Category:'Routine',
-        Created_By:'dog@gmail.com',
-        Priority:'Low Priority',
-        Assign_Date:'2023-07-11'
-      },
-      {
-        Ticket_ID:'001',
-        Subject:'Internet Problem',
-        Category:'Incident Report',
-        Created_By:'panda@gmail.com',
-        Priority:'Low Priority',
-        Assign_Date:'2023-07-11'
-      },
-      {
-        Ticket_ID:'002',
-        Subject:'Room Cleaning',
-        Category:'Service Request',
-        Created_By:'cat@gmail.com',
-        Priority:'Low Priority',
-        Assign_Date:'2023-07-11'
-      },
-      {
-        Ticket_ID:'003',
-        Subject:'Bills Payment',
-        Category:'Routine',
-        Created_By:'dog@gmail.com',
-        Priority:'Low Priority',
-        Assign_Date:'2023-07-11'
-      },
-      {
-        Ticket_ID:'003',
-        Subject:'Development',
-        Category:'Project',
-        Created_By:'dog@gmail.com',
-        Priority:'Low Priority',
-        Assign_Date:'2023-07-11'
-      },
-    ]"
-    style="font-family: inherit"
-    :columns="[
-          {
-            label: 'TICKET ID',          
-            field: 'Ticket_ID',
-            name:  'Ticket_ID',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
+        <q-separator />
 
-            
-          },
-          {
-            label: 'SUBJECT',
-            field: 'Subject',
-            name:  'Subject',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
+        <q-form ref="createForm" @submit.prevent="submitTicket">
+          <q-card-section class="q-gutter-md">
+            <q-input
+              v-model="form.subject"
+              outlined
+              dense
+              label="Subject *"
+              :rules="[(v) => !!v || 'Subject is required']"
+            >
+              <template #prepend><q-icon name="subject" /></template>
+            </q-input>
 
-          },
-          {
-            label: 'CATEGORY',
-            field: 'Category',
-            name:  'Category',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
+            <q-select
+              v-model="form.category"
+              outlined
+              dense
+              label="Category *"
+              :options="categoryOptions"
+              :rules="[(v) => !!v || 'Category is required']"
+            >
+              <template #prepend><q-icon name="category" /></template>
+            </q-select>
 
-          },
-          {
-            label: 'CREATED BY',
-            field: 'Created_By',
-            name:  'Created_By',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-           
-          },
-          {
-            label: 'PRIORITY',
-            field: 'Priority',
-            name:  'Priority',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size:1em'
+            <q-select
+              v-model="form.submitted_to"
+              outlined
+              dense
+              label="Department *"
+              :options="departmentOptions"
+              :rules="[(v) => !!v || 'Department is required']"
+            >
+              <template #prepend><q-icon name="home" /></template>
+            </q-select>
 
+            <q-input
+              v-model="form.description"
+              outlined
+              dense
+              type="textarea"
+              label="Description *"
+              autogrow
+              :rules="[(v) => !!v || 'Description is required']"
+            >
+              <template #prepend><q-icon name="message" /></template>
+            </q-input>
 
-          },
-          {
-            label: 'ASSIGN DATE',
-            field: 'Assign_Date',
-            name:  'Assign_Date',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-          }
-    ]"
-            row-key="Ticket_ID"
-            :visible-columns="['Ticket_ID', 'Subject', 'Category', 'Created_By', 'Priority', 'Assign_Date']"
-            :rows-per-page-options="[5,9,10,15,20,25,30,0]"
-    >
-            <template #body="props">
-              <q-tr class="white" :props="props">
-                <q-td key="Ticket_ID" class="text-center" style="color: black; font-style: inherit; 
-                font-size: 14px;" >
-                  {{ props.row.Ticket_ID }}
-                </q-td>
-                <q-td key="Subject" >
-                  {{ props.row.Subject }}
-                </q-td>
-                <q-td key="Category" >
-                  {{ props.row.Category }}
-                </q-td>
-                <q-td key="Created_By">
-                  {{ props.row.Created_By }}
-                </q-td>
-                <q-td key="Priority" class="text-center" style="color: black; font-style: inherit;">
-                  <q-chip>{{ props.row.Priority }}</q-chip>
-                </q-td>
-                <q-td key="Assign_Date" class="text-center" style="color: black; font-style: inherit; font-size: 14px;">
-                  {{ props.row.Assign_Date }}
-                </q-td>
-              </q-tr>
-            </template>
-          
-          
-          </q-table>
-      </q-tab-panel>
-                        <!-----------------------Submitted Table--------------------->
+            <q-select
+              v-model="form.priority"
+              outlined
+              dense
+              label="Priority *"
+              :options="priorityOptions"
+              :rules="[(v) => !!v || 'Priority is required']"
+            >
+              <template #prepend><q-icon name="flag" /></template>
+            </q-select>
 
-      <q-tab-panel name="Submitted" class="tasklist_tbl">
-        <q-table separator="cell" wrap-cells 
-        :rows="[
-          {
-            Ticket_ID:'001',
-            Subject:'Internet Problem',
-            Category:'Incident Report',
-            Created_Date:'2023-07-11',
-            Submitted_To:'Marketing Department',
-            Assignee:'Cary Apeladas',
-            Priority:'Low Priority',
-            Status:'For Approval'
-          },
-          {
-            Ticket_ID:'002',
-            Subject:'Internet Problem',
-            Category:'Incident Report',
-            Created_Date:'2023-07-11',
-            Submitted_To:'Marketing Department',
-            Assignee:'Cary Apeladas',
-            Priority:'High Priority',
-            Status:'Ongoing'
-          },
-          {
-            Ticket_ID:'003',
-            Subject:'Internet Problem',
-            Category:'Incident Report',
-            Created_Date:'2023-07-11',
-            Submitted_To:'Marketing Department',
-            Assignee:'Cary Apeladas',
-            Priority:'Low Priority',
-            Status:'For Approval'
-          },
-          {
-            Ticket_ID:'002',
-            Subject:'Internet Problem',
-            Category:'Incident Report',
-            Created_Date:'2023-07-11',
-            Submitted_To:'Marketing Department',
-            Assignee:'Cary Apeladas',
-            Priority:'High Priority',
-            Status:'Ongoing'
-          },
-          {
-            Ticket_ID:'003',
-            Subject:'Internet Problem',
-            Category:'Incident Report',
-            Created_Date:'2023-07-11',
-            Submitted_To:'Marketing Department',
-            Assignee:'Cary Apeladas',
-            Priority:'Low Priority',
-            Status:'For Approval'
-          }
-        ]"
-        style="font-family: inherit"
-        :columns="[
-          {
-            label: 'TICKET ID',
-            field: 'Ticket_ID',
-            name:  'Ticket_ID',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-            
-          },
-          {
-            label: 'SUBJECT',
-            field: 'Subject',
-            name:  'Subject',
-            align: 'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-          },
-          {
-            label: 'CATEGORY',
-            field: 'Category',
-            name:  'Category',
-            align: 'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-          },
-          {
-            label: 'CREATED DATE',
-            field: 'Created_Date',
-            name:  'Created_Date',
-            align: 'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-          },
-          {
-            label: 'SUBMITTED TO',
-            field: 'Submitted_To',
-            name:  'Submitted_To',
-            align: 'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-          },
-          {
-            label: 'ASSIGNEE',
-            field: 'Assignee',
-            name:  'Assignee',
-            align: 'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-          },
-          {
-            label: 'PRIORITY',
-            field: 'Priority',
-            name:  'Priority',
-            align: 'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-          },
-          {
-            label: 'STATUS',
-            field: 'Status',
-            name:  'Status',
-            align: 'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-          }
-        ]" 
-            row-key="Ticket_ID"
-            :visible-columns="['Ticket_ID', 'Subject', 'Category', 'Created_Date', 'Submitted_To', 'Assignee', 'Priority', 'Status']"
-            :rows-per-page-options="[5,9,10,15,20,25,30,0]"
-    >
-            <template #body="props">
-              <q-tr class="white" :props="props">
-                <q-td key="Ticket_ID" class="text-center" style="color: black; font-style: inherit; font-size: 14px;">
-                  {{ props.row.Ticket_ID }}
-                </q-td>
-                <q-td key="Subject">
-                  {{ props.row.Subject }}
-                </q-td>
-                <q-td key="Category">
-                  {{ props.row.Category }}
-                </q-td>
-                <q-td key="Created_Date" class="text-center" style="color: black; font-style: inherit; font-size: 14px;">
-                  {{ props.row.Created_Date }}
-                </q-td>
-                <q-td key="Submitted_To">
-                  {{ props.row.Submitted_To }}
-                </q-td>
-                <q-td key="Assignee">
-                  {{ props.row.Assignee }}
-                </q-td>
-                <q-td key="Priority" class="text-center" style="color: black; font-style: inherit; font-size: 14px;">
-                  <q-chip>{{ props.row.Priority }}</q-chip>
-                </q-td>
-                <q-td key="Status" class="text-center" style="color: black; font-style: inherit; font-size: 14px;">
-                  {{ props.row.Status }}
-                </q-td>
-              </q-tr>
-            </template>
-          
-          
-          </q-table>
+            <q-file
+              v-model="form.files"
+              outlined
+              dense
+              multiple
+              label="Attachment"
+              hint="Optional"
+            >
+              <template #prepend><q-icon name="attach_file" /></template>
+            </q-file>
+          </q-card-section>
 
-      </q-tab-panel>
+          <q-separator />
 
-                 <!-----------------------For Review Table--------------------->
-
-      <q-tab-panel name="ForReview" class="tasklist_tbl">
-        <q-table separator="cell" wrap-cells 
-        
-        :rows="[
-          {
-            Ticket_ID:'001',
-            Subject:'Internet Problem',
-            Category:'Incident Report',
-            Created_Date:'2023-07-11',
-            Submitted_To:'Marketing Department',
-            Assignee:'Cary Apeladas',
-            Priority:'Low Priority',
-            Completed_Date:'2023-07-07'
-          },
-          {
-            Ticket_ID:'001',
-            Subject:'Internet Problem',
-            Category:'Incident Report',
-            Created_Date:'2023-07-11',
-            Submitted_To:'Marketing Department',
-            Assignee:'Cary Apeladas',
-            Priority:'Low Priority',
-            Completed_Date:'2023-07-07'
-          },
-          {
-            Ticket_ID:'001',
-            Subject:'Internet Problem',
-            Category:'Incident Report',
-            Created_Date:'2023-07-11',
-            Submitted_To:'Marketing Department',
-            Assignee:'Cary Apeladas',
-            Priority:'Low Priority',
-            Completed_Date:'2023-07-07'
-          },
-          {
-            Ticket_ID:'001',
-            Subject:'Internet Problem',
-            Category:'Incident Report',
-            Created_Date:'2023-07-11',
-            Submitted_To:'Marketing Department',
-            Assignee:'Cary Apeladas',
-            Priority:'Low Priority',
-            Completed_Date:'2023-07-07'
-          },
-          {
-            Ticket_ID:'001',
-            Subject:'Internet Problem',
-            Category:'Incident Report',
-            Created_Date:'2023-07-11',
-            Submitted_To:'Marketing Department',
-            Assignee:'Cary Apeladas',
-            Priority:'Low Priority',
-            Completed_Date:'2023-07-07'
-          },
-        ]" 
-         style="font-family: inherit"
-        :columns="[
-          {
-            label: 'TICKET ID',          
-            field: 'Ticket_ID',
-            name:  'Ticket_ID',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-          },
-          {
-            label: 'SUBJECT',          
-            field: 'Subject',
-            name:  'Subject',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-          },
-          {
-            label: 'CATEGORY',          
-            field: 'Category',
-            name:  'Category',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-          },
-          {
-            label: 'CREATED DATE',          
-            field: 'Created_Date',
-            name:  'Created_Date',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-          },
-          {
-            label: 'SUBMITTED TO',          
-            field: 'Submitted_To',
-            name:  'Submitted_To',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-          },
-          {
-            label: 'ASSIGNEE',          
-            field: 'Assignee',
-            name:  'Assignee',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-          },
-          {
-            label: 'PRIORITY',          
-            field: 'Priority',
-            name:  'Priority',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-          },
-          {
-            label: 'COMPLETED DATE',          
-            field: 'Completed_Date',
-            name:  'Completed_Date',
-            align:'center',
-            headerClasses: 'bg-teal-7 text-white',
-            headerStyle: 'font-size: 1em'
-          }
-        ]"
-             row-key="Ticket_ID"
-            :visible-columns="['Ticket_ID', 'Subject', 'Category', 'Created_Date', 'Submitted_To', 'Assignee', 'Priority', 'Completed_Date']"
-            :rows-per-page-options="[5,9,10,15,20,25,30,0]"
-    >
-            <template #body="props">
-              <q-tr class="white" :props="props">
-                <q-td key="Ticket_ID" class="text-center" style="color: black; font-style: inherit; font-size: 14px;">
-                  {{ props.row.Ticket_ID }}
-                </q-td>
-                <q-td key="Subject">
-                  {{ props.row.Subject }}
-                </q-td>
-                <q-td key="Category">
-                  {{ props.row.Category }}
-                </q-td>
-                <q-td key="Created_Date" class="text-center" style="color: black; font-style: inherit; font-size: 14px;">
-                  {{ props.row.Created_Date }}
-                </q-td>
-                <q-td key="Submitted_To">
-                  {{ props.row.Submitted_To }}
-                </q-td>
-                <q-td key="Assignee">
-                  {{ props.row.Assignee }}
-                </q-td>
-                <q-td key="Priority" class="text-center" style="color: black; font-style: inherit; font-size: 14px;">
-                  <q-chip>{{ props.row.Priority }}</q-chip>
-                </q-td>
-                <q-td key="Completed_Date" class="text-center" style="color: black; font-style: inherit; font-size: 14px;">
-                  {{ props.row.Completed_Date }}
-                </q-td>
-              </q-tr>
-            </template>
-          
-          
-          </q-table>
-      </q-tab-panel>
-    </q-tab-panels>
+          <q-card-actions align="right">
+            <q-btn flat label="Cancel" color="grey-8" v-close-popup :disable="submitting" />
+            <q-btn
+              unelevated
+              label="Save"
+              color="teal-7"
+              type="submit"
+              :loading="submitting"
+            />
+          </q-card-actions>
+        </q-form>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
-<!--&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&      END     &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&-->
+<script setup lang="ts">
+import { ref, reactive, onMounted, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { useQuasar, QTableProps } from 'quasar';
 
-<script>
-import { ref } from 'vue'
-export default {
-  setup () {
-    return {
-      prompt: ref(false),
-    }
-  },
+type TabName = 'MyTask' | 'Submitted' | 'ForReview';
 
-      //mytask, submitted, for review button ---------
-      model: ref('currentTab'),
-       //prompt ---------
-      //Attachment ---------
-      file: ref(null),
-      files: ref(null),
-      //Description ---------
-      textareaModel: ref(''),
-      //ComboBox ---------
-      onItemClick () {
-        // console.log('Clicked on an Item')
-      }
+interface TicketRow {
+  ticketid: number | string;
+  subject: string;
+  category: string;
+  requestor?: string;
+  submitted_to?: string;
+  assignee?: string;
+  priority: string;
+  status?: string;
+  assign_date?: string;
+  completed_date?: string;
 }
+
+interface TabDef {
+  name: TabName;
+  label: string;
+  icon: string;
+  columns: QTableProps['columns'];
+}
+
+const router = useRouter();
+const $q = useQuasar();
+
+const isAdmin = computed(
+  () => String(localStorage.getItem('user_role')) === '1'
+);
+
+const loading = ref(false);
+const submitting = ref(false);
+const error = ref('');
+const currentTab = ref<TabName>('MyTask');
+const rows = ref<TicketRow[]>([]);
+const counts = reactive<Record<TabName, number>>({
+  MyTask: 0,
+  Submitted: 0,
+  ForReview: 0,
+});
+
+const createDialog = ref(false);
+const createForm = ref();
+const form = reactive({
+  subject: '',
+  category: '',
+  submitted_to: '',
+  description: '',
+  priority: '',
+  files: null as File[] | null,
+});
+
+const categoryOptions = [
+  'Incident Report',
+  'Service Request',
+  'Routine',
+  'Ad hoc/Projects',
+];
+const departmentOptions = [
+  'Operations Department',
+  'Finance & Admin Department',
+  'Marketing Department',
+  'IT Department',
+];
+const priorityOptions = ['High Priority', 'Medium Priority', 'Low Priority'];
+
+// Shared column builder
+function col(
+  name: string,
+  label: string,
+  field: string,
+  align: 'left' | 'center' | 'right' = 'left'
+): NonNullable<QTableProps['columns']>[number] {
+  return {
+    name,
+    label,
+    field,
+    align,
+    headerClasses: 'bg-teal-7 text-white',
+    sortable: true,
+  };
+}
+
+const tabs = computed<TabDef[]>(() => {
+  const allTabs: TabDef[] = [
+  {
+    name: 'MyTask',
+    label: 'My Task',
+    icon: 'event_available',
+    columns: [
+      col('ticketid', 'Ticket ID', 'ticketid', 'center'),
+      col('subject', 'Subject', 'subject'),
+      col('category', 'Category', 'category'),
+      col('requestor', 'Created By', 'requestor'),
+      col('priority', 'Priority', 'priority', 'center'),
+      col('assign_date', 'Assign Date', 'assign_date', 'center'),
+    ],
+  },
+  {
+    name: 'Submitted',
+    label: 'Submitted',
+    icon: 'check_circle_outline',
+    columns: [
+      col('ticketid', 'Ticket ID', 'ticketid', 'center'),
+      col('subject', 'Subject', 'subject'),
+      col('category', 'Category', 'category'),
+      col('submitted_to', 'Submitted To', 'submitted_to'),
+      col('assignee', 'Assignee', 'assignee'),
+      col('priority', 'Priority', 'priority', 'center'),
+      col('status', 'Status', 'status', 'center'),
+    ],
+  },
+  {
+    name: 'ForReview',
+    label: 'For Review',
+    icon: 'rate_review',
+    columns: [
+      col('ticketid', 'Ticket ID', 'ticketid', 'center'),
+      col('subject', 'Subject', 'subject'),
+      col('category', 'Category', 'category'),
+      col('submitted_to', 'Submitted To', 'submitted_to'),
+      col('assignee', 'Assignee', 'assignee'),
+      col('priority', 'Priority', 'priority', 'center'),
+      col('completed_date', 'Completed Date', 'completed_date', 'center'),
+    ],
+  },
+  ];
+
+  // Admins (role 1) do not get the For Review tab.
+  return isAdmin.value
+    ? allTabs.filter((t) => t.name !== 'ForReview')
+    : allTabs;
+});
+
+// Map each tab to the correct backend endpoint based on the user's role.
+// Roles: 1 = Admin, 2 = Assignor, otherwise Creator.
+function endpointFor(tab: TabName): string {
+  const role = localStorage.getItem('user_role');
+  const map: Record<string, Record<TabName, string>> = {
+    '1': {
+      MyTask: 'get_admin_submitted',
+      Submitted: 'get_admin_submitted',
+      ForReview: 'get_adminforreview',
+    },
+    '2': {
+      MyTask: 'unit_head_mytask',
+      Submitted: 'unit_head_submitted',
+      ForReview: 'unit_head_forreview',
+    },
+    default: {
+      MyTask: 'rank_in_file_tasklist',
+      Submitted: 'rank_in_file_submitted',
+      ForReview: 'rank_in_file_review',
+    },
+  };
+  return (map[role ?? 'default'] ?? map.default)[tab];
+}
+
+function priorityColor(priority: string): string {
+  const p = (priority || '').toLowerCase();
+  if (p.includes('high')) return 'red-6';
+  if (p.includes('medium')) return 'orange-7';
+  if (p.includes('low')) return 'green-6';
+  return 'grey-6';
+}
+
+function statusColor(status: string): string {
+  const s = (status || '').toLowerCase();
+  if (s.includes('open') || s.includes('approval')) return 'blue-6';
+  if (s.includes('assigned') || s.includes('ongoing') || s.includes('progress'))
+    return 'orange-7';
+  if (s.includes('closed') || s.includes('resolved') || s.includes('done'))
+    return 'green-6';
+  if (s.includes('return') || s.includes('misrouted')) return 'red-6';
+  return 'grey-6';
+}
+
+function getHeaders(): HeadersInit {
+  return {
+    'Content-Type': 'application/json',
+    logged_in_user: localStorage.getItem('logged_in_user') ?? '',
+  };
+}
+
+function ensureAuthed(): boolean {
+  if (!localStorage.getItem('logged_in_user')) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('logged_in_user');
+    localStorage.removeItem('user_role');
+    router.push('/login');
+    return false;
+  }
+  return true;
+}
+
+async function loadCurrentTab() {
+  if (!ensureAuthed()) return;
+
+  loading.value = true;
+  error.value = '';
+  const tab = currentTab.value;
+  try {
+    const res = await fetch(`${process.env.API_URL}/${endpointFor(tab)}`, {
+      headers: getHeaders(),
+    });
+    const data = await res.json();
+
+    if (data.status !== 'success') {
+      if (res.status === 400 || res.status === 401) {
+        ensureAuthed();
+        router.push('/login');
+        return;
+      }
+      throw new Error(data.message || 'Failed to load tasks.');
+    }
+
+    const list: TicketRow[] = Array.isArray(data.response_data)
+      ? data.response_data
+      : [];
+    rows.value = list;
+    counts[tab] = list.length;
+  } catch (err) {
+    console.error('TaskList load error:', err);
+    error.value =
+      err instanceof Error ? err.message : 'Unable to load tasks.';
+    rows.value = [];
+  } finally {
+    loading.value = false;
+  }
+}
+
+function openCreateDialog() {
+  form.subject = '';
+  form.category = '';
+  form.submitted_to = '';
+  form.description = '';
+  form.priority = '';
+  form.files = null;
+  createDialog.value = true;
+}
+
+async function submitTicket() {
+  if (!ensureAuthed()) return;
+
+  submitting.value = true;
+  try {
+    const res = await fetch(`${process.env.API_URL}/create_ticket`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({
+        subject: form.subject,
+        category: form.category,
+        submitted_to: form.submitted_to,
+        description: form.description,
+        priority: form.priority,
+      }),
+    });
+    const data = await res.json();
+
+    if (data.status !== 'success') {
+      const msg =
+        typeof data.message === 'string'
+          ? data.message
+          : data.message?.response_data || 'Failed to create job order.';
+      throw new Error(msg);
+    }
+
+    $q.notify({ type: 'positive', message: 'Job order created successfully.' });
+    createDialog.value = false;
+    // Refresh the Submitted tab so the new ticket shows up.
+    currentTab.value = 'Submitted';
+    await loadCurrentTab();
+  } catch (err) {
+    console.error('Create ticket error:', err);
+    $q.notify({
+      type: 'negative',
+      message: err instanceof Error ? err.message : 'Failed to create job order.',
+    });
+  } finally {
+    submitting.value = false;
+  }
+}
+
+onMounted(loadCurrentTab);
 </script>
-
-<script setup>
-import { ref } from 'vue'
-const label =ref()
-const currentTab = ref('MyTask')
-//Submitted
-//For Review
-
-
-</script>
-
 
 <style lang="scss" scoped src="./TaskList.scss"></style>

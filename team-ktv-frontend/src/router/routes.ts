@@ -3,6 +3,10 @@ import { RouteRecordRaw } from 'vue-router';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
+    redirect: '/login',
+  },
+  {
+    path: '/dashboard',
     component: () => import('layouts/MainLayout.vue'),
     children:
     [
@@ -18,7 +22,6 @@ const routes: RouteRecordRaw[] = [
     component: () => import('layouts/Admin.vue'),
     children:
     [
-      { path: '', component: () => import('pages/admin/admindashboard.vue')},
       { path: 'DepartmentManagement', component: () => import('pages/admin/DepartmentManagement.vue')},
       { path: 'EmployeeManagement', component: () => import('pages/admin/EmployeeManagement.vue')},
       { path: 'JobOrderCategoryManagement', component: () => import('pages/admin/JobOrderCategoryManagement.vue')},

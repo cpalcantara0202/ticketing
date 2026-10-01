@@ -76,9 +76,9 @@ module.exports = class TemplateController
             return_data[i]["department"] = user.department;
 
             switch (user.user_role) {
-                case 1: return_data[i]["role_name"] = 'Administrator'; break;
-                case 2: return_data[i]["role_name"] = 'Unit Head'; break;
-                case 3: return_data[i]["role_name"] = 'Rank and File'; break;
+                case 1: return_data[i]["role_name"] = 'Admin'; break;
+                case 2: return_data[i]["role_name"] = 'Assignor'; break;
+                case 3: return_data[i]["role_name"] = 'Creator'; break;
             }
 
             // return_data.push(user);
@@ -104,9 +104,9 @@ module.exports = class TemplateController
             return_data[i]["department"] = user.department;
 
             switch (user.user_role) {
-                case 1: return_data[i]["role_name"] = 'Administrator'; break;
-                case 2: return_data[i]["role_name"] = 'Unit Head'; break;
-                case 3: return_data[i]["role_name"] = 'Rank and File'; break;
+                case 1: return_data[i]["role_name"] = 'Admin'; break;
+                case 2: return_data[i]["role_name"] = 'Assignor'; break;
+                case 3: return_data[i]["role_name"] = 'Creator'; break;
             }
 
             // return_data.push(user);
@@ -124,6 +124,37 @@ module.exports = class TemplateController
         let allDepartment           = await mainDept.find({});
         //console.log(allDepartment);    
         return global.controller.handleSuccess(req, res, { response_data: allDepartment });
+    }
+
+    // All users (active + deactivated) with their status.   //get_allusers
+    async getAllUsers(req, res) {
+        let users                   = new Users();
+        let all_users               = await users.find({});
+        let return_data             = [];
+        let i                       = 0;
+
+        for (let user of all_users) {
+            return_data[i] = {};
+            return_data[i]["user_number"] = user.user_number;
+            return_data[i]["username"]    = user.username;
+            return_data[i]["full_name"]   = user.firstname + " " + user.lastname;
+            return_data[i]["firstname"]   = user.firstname;
+            return_data[i]["lastname"]    = user.lastname;
+            return_data[i]["department"]  = user.department;
+            return_data[i]["user_role"]   = user.user_role;
+            // status: 1 = Active, 0 = Deactivated
+            return_data[i]["status"]      = user.status;
+
+            switch (user.user_role) {
+                case 1: return_data[i]["role_name"] = 'Admin'; break;
+                case 2: return_data[i]["role_name"] = 'Assignor'; break;
+                case 3: return_data[i]["role_name"] = 'Creator'; break;
+            }
+
+            i++;
+        }
+
+        return global.controller.handleSuccess(req, res, { response_data: return_data });
     }
 
 }
