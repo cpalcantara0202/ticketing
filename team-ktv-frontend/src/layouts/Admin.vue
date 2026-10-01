@@ -13,7 +13,7 @@
           class="q-ml-sm"
         />
         <q-space />
-        <img class="logo" src="src/assets/logo.svg">
+        <img class="logo" :src="logo">
         <q-space />
       </q-toolbar>
     </q-header>
@@ -32,6 +32,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import logo from 'src/assets/logo.svg';
 
 const router = useRouter();
 const route = useRoute();
@@ -42,6 +43,7 @@ function toggleLeftDrawer() {
 }
 
 function logout() {
+  localStorage.removeItem('token');
   localStorage.removeItem('logged_in_user');
   localStorage.removeItem('user_role');
   router.push('/login');

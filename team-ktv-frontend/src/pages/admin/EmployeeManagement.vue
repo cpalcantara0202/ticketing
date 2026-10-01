@@ -204,9 +204,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 
-const API_URL = 'http://localhost:4001'
-
-const currentTab = ref('Active')
+const API_URL = process.env.API_URL
 const prompt = ref(false)
 const isPwd = ref(true)
 const dense = ref(false)
@@ -221,9 +219,9 @@ const archivedUsers = ref([])
 
 const departmentOptions = ['Operations Department', 'Finance&Admin Department', 'Marketing Department', 'IT Department']
 const roleOptions = [
-  { label: 'Administrator', value: 1 },
-  { label: 'Unit Head', value: 2 },
-  { label: 'Rank and File', value: 3 }
+  { label: 'Admin', value: 1 },
+  { label: 'Assignor', value: 2 },
+  { label: 'Creator', value: 3 }
 ]
 
 const tableColumns = [

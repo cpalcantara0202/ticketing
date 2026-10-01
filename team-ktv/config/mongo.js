@@ -14,6 +14,10 @@ MONGOOSE.connect(connection_url,
         console.log("ERROR", error);
         console.log('access denied');
     }
+    else
+    {
+        console.log('MongoDB connected successfully');
+    }
 });
 
 MONGOOSE.pluralize(null);

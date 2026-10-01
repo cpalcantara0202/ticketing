@@ -89,10 +89,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 
-const API_URL = 'http://localhost:4001'
-
-const prompt = ref(false)
-const dense = ref(false)
+const API_URL = process.env.API_URL
 const loading = ref(false)
 const saving = ref(false)
 const showMessage = ref(false)

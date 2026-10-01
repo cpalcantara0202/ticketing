@@ -64,6 +64,7 @@ routes.post('/login',auth_user.logIn);//login
 routes.get('/get_employee_report', middleware_class.memberOnly, report_controller.employeeReport, );//login 
 routes.get('/get_unithead',middleware_class.memberOnly,auth_user.getListunithead);//show list of unit heads
 routes.get('/get_activeuser',middleware_class.memberOnly,dept_controller.getActive);//show active users
+routes.get('/get_allusers',middleware_class.memberOnly,dept_controller.getAllUsers);//all users with status
 routes.get('/get_archiveduser',middleware_class.memberOnly,dept_controller.getArchived);//show archived users
 routes.get('/rate_ticket',middleware_class.memberOnly,rate_controller.rate_tickets);//rate the ticket
 routes.get('/getAllDept',middleware_class.memberOnly,dept_controller.getAllDept);//show list of department
@@ -81,6 +82,7 @@ routes.get('/rank_in_file_review',middleware_class.memberOnly,view_controller.Em
 routes.get('/rank_in_file_done',middleware_class.memberOnly,view_controller.EmpDone);//get rank in file done.
 routes.get('/rank_in_file_inprogress',middleware_class.memberOnly,view_controller.EmpInprogress);//get rank in file in progress.
 routes.get('/search_employee',middleware_class.memberOnly,search_employee.searchEmployeeList);//get department employee's name
+routes.get('/employee_ratings',middleware_class.memberOnly,search_employee.employeeRatings);//dept employees with avg rating
 routes.get('/unit_head_returned',middleware_class.memberOnly,view_controller.UnitHeadReturned);//get unit head for assigning
 routes.get('/total_assigned',middleware_class.memberOnly,counter_employee.TotalTicketsAssigned);//get total assigned
 routes.get('/total_closed',middleware_class.memberOnly,counter_employee.TotalTicketsClosed);//get total closed

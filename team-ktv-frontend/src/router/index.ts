@@ -21,8 +21,22 @@ export default route(function (/* { store, ssrContext } */) {
 
   Router.beforeEach((to, from, next) => {
     const isAuthenticated = !!localStorage.getItem('token');
+    const role = String(localStorage.getItem('user_role'));
+    const isCreator = role === '3';
+    const isAdmin = role === '1';
+
+    // Department Task is restricted from Creators and Admins.
+    // Employee List is restricted from Creators only.
+    const blocked: string[] = [];
+    if (isCreator || isAdmin) blocked.push('/dashboard/DepartmentTask');
+    if (isCreator) blocked.push('/dashboard/EmployeeList');
+
     if (to.path !== '/login' && !isAuthenticated) {
       next('/login');
+    } else if (to.path === '/login' && isAuthenticated) {
+      next('/dashboard');
+    } else if (blocked.includes(to.path)) {
+      next('/dashboard');
     } else {
       next();
     }

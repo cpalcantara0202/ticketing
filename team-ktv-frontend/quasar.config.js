@@ -62,7 +62,11 @@ module.exports = configure(function (/* ctx */) {
 
       // publicPath: '/',
       // analyze: true,
-      // env: {},
+      env: {
+        // Backend API base URL. Override per-environment via the API_URL
+        // environment variable (e.g. API_URL=https://api.example.com quasar build).
+        API_URL: process.env.API_URL || 'http://localhost:4001'
+      },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,
@@ -99,7 +103,7 @@ module.exports = configure(function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: []
+      plugins: ['Notify']
     },
 
     // animations: 'all', // --- includes all animations
